@@ -1,0 +1,30 @@
+<!-- templates/partials/header.html -->
+<nav class="main-nav">
+    <div class="nav-left">
+        <a href="{{ url_for('index') }}" class="home-button">
+            <i class="fas fa-home"></i>
+        </a>
+    </div>
+    <div class="nav-middle">
+        <h1 class="page-title">{% block page_title %}{% endblock %}</h1>
+    </div>
+    <div class="nav-right">
+        <button class="burger-menu" aria-label="Menu">
+            <i class="fas fa-bars"></i>
+        </button>
+    </div>
+</nav>
+
+<div class="mobile-menu">
+    <div class="menu-header">
+        <h2>Menu</h2>
+        <button class="close-menu">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+    <ul class="menu-items">
+        <li><a href="{{ url_for('animation') }}"><i class="fas fa-play-circle"></i> Animation</a></li>
+        <li><a href="{{ url_for('camera') }}"><i class="fas fa-video"></i> Camera</a></li>
+        <li><a href="{{ url_for('settings') }}"><i class="fas fa-cog"></i> Settings</a></li>
+    </ul>
+</div>

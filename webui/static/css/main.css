@@ -64,7 +64,7 @@ input[type='range'] {
   gap: 10px;
 }
 
-#sliderForm > div:first-child {
+#sliderForm>div:first-child {
   grid-column: 1 / span 2;
 }
 
@@ -271,4 +271,126 @@ canvas {
     margin-left: 0;
     margin-bottom: 10px;
   }
+}
+
+/* Navigation styles */
+.main-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background-color: var(--card-background);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 1rem;
+  z-index: 1000;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.nav-left,
+.nav-right {
+  flex: 0 0 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-middle {
+  flex: 1;
+  text-align: center;
+}
+
+.home-button,
+.burger-menu {
+  background: none;
+  border: none;
+  color: var(--text-color);
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0.5rem;
+}
+
+.home-button:hover,
+.burger-menu:hover {
+  color: var(--accent-color);
+}
+
+/* Mobile menu styles */
+.mobile-menu {
+  position: fixed;
+  top: 0;
+  right: -280px;
+  width: 280px;
+  height: 100vh;
+  background-color: var(--card-background);
+  z-index: 1001;
+  transition: right 0.3s ease;
+  box-shadow: -2px 0 4px rgba(0, 0, 0, 0.1);
+}
+
+.mobile-menu.active {
+  right: 0;
+}
+
+.menu-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.close-menu {
+  background: none;
+  border: none;
+  color: var(--text-color);
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.menu-items {
+  list-style: none;
+  padding: 1rem 0;
+}
+
+.menu-items li a {
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  color: var(--text-color);
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.menu-items li a:hover {
+  background-color: var(--button-hover);
+}
+
+.menu-items li a i {
+  margin-right: 1rem;
+  width: 20px;
+  text-align: center;
+}
+
+/* Adjust main content for fixed header */
+body {
+  padding-top: 60px;
+}
+
+/* Overlay for mobile menu */
+.menu-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+}
+
+.menu-overlay.active {
+  display: block;
 }
