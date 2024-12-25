@@ -63,6 +63,13 @@ class KeyFrameAnimation(Animation):
         self.repetitions = None
         self.fps = animation["config"]["fps"]
 
+    @classmethod
+    def from_path(cls, file_path, *args, **kwargs):
+        with open(file_path) as f:
+            data = json.load(f)
+
+        return cls(data, *args, **kwargs)
+
     def tick(self, delta):
         super().tick(delta)
         self.current_time += delta
@@ -99,13 +106,14 @@ class KeyFrameAnimation(Animation):
 
 
 class HeadAnimation(Animation):
-    def __init__(self, pose_estimator, left, neutral, right, *args, **kwargs):
+    def __init__(self, pose_estimator, animation_data, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.left = left
-        self.neutral = neutral
-        self.right = right
+
+        self.left = animation_data["keyframes"][0]["values"]
+        self.neutral = animation_data["keyframes"][1]["values"]
+        self.right = animation_data["keyframes"][2]["values"]
         self.pose_estimator = pose_estimator
-        self.last_pose = neutral
+        self.last_pose = self.neutral
 
     def interpolate_values(self, x):
         interpolated = {}
@@ -128,7 +136,7 @@ class HeadAnimation(Animation):
         return target
 
 
-class IdleAnimation(Animation):
+class BackgroundAnimation(Animation):
     def __init__(self, keyframe_animations, *args, expected_start=15, **kwargs):
         super().__init__(*args, **kwargs)
         self.keyframe_animations = keyframe_animations

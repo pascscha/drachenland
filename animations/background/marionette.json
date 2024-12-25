@@ -1,0 +1,45 @@
+{
+    "keyframes": [
+        {
+            "frameIndex": 0,
+            "values": {
+                "K": 95,
+                "SR": 117,
+                "ARaR": 29,
+                "ARi": 25,
+                "SLR": 126,
+                "ALa": 33,
+                "ALiR": 20
+            }
+        },
+        {
+            "frameIndex": 78,
+            "values": {
+                "K": 87,
+                "SR": 97,
+                "ARaR": 73,
+                "ARi": 13,
+                "SLR": 128,
+                "ALa": 46,
+                "ALiR": 30
+            }
+        },
+        {
+            "frameIndex": 129,
+            "values": {
+                "K": 95,
+                "SR": 117,
+                "ARaR": 29,
+                "ARi": 25,
+                "SLR": 126,
+                "ALa": 33,
+                "ALiR": 20
+            }
+        }
+    ],
+    "config": {
+        "totalFrames": 129,
+        "fps": 10,
+        "currentFrameIndex": 129
+    }
+}

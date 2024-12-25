@@ -1,0 +1,33 @@
+{
+    "keyframes": [
+        {
+            "frameIndex": 0,
+            "values": {
+                "K": 68,
+                "SR": 140,
+                "ARaR": 32,
+                "ARi": 13,
+                "BRR": 0,
+                "SLR": 128,
+                "ALa": 25,
+                "ALiR": 17,
+                "BL": 0,
+                "1FlugDrache": 0,
+                "Schwanzbeisser": 0,
+                "Reiter": 0,
+                "Reserve": 0,
+                "HubAb": 0,
+                "HubAuf": 0,
+                "HubEin": 0,
+                "2Flugdrachen": 0,
+                "LedRot": 0,
+                "LedGruen": 0
+            }
+        }
+    ],
+    "config": {
+        "totalFrames": 40,
+        "fps": 10,
+        "currentFrameIndex": 0
+    }
+}

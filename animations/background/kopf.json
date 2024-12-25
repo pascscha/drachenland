@@ -1,0 +1,39 @@
+{
+    "keyframes": [
+        {
+            "frameIndex": 0,
+            "values": {
+                "KopfDrache": 60
+            }
+        },
+        {
+            "frameIndex": 15,
+            "values": {
+                "KopfDrache": 0
+            }
+        },
+        {
+            "frameIndex": 20,
+            "values": {
+                "KopfDrache": 23
+            }
+        },
+        {
+            "frameIndex": 25,
+            "values": {
+                "KopfDrache": 0
+            }
+        },
+        {
+            "frameIndex": 31,
+            "values": {
+                "KopfDrache": 60
+            }
+        }
+    ],
+    "config": {
+        "totalFrames": 31,
+        "fps": 10,
+        "currentFrameIndex": 0
+    }
+}

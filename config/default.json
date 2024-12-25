@@ -1,4 +1,9 @@
 {
+    "animations": {
+        "head": "animations/head.json",
+        "idle": "animations/idle.json",
+        "background": "animations/background"
+    },
     "gpio": {
         "servos": {
             "0": {

@@ -1,0 +1,63 @@
+{
+    "keyframes": [
+        {
+            "frameIndex": 0,
+            "values": {
+                "FressDrache": 111
+            }
+        },
+        {
+            "frameIndex": 16,
+            "values": {
+                "FressDrache": 47
+            }
+        },
+        {
+            "frameIndex": 21,
+            "values": {
+                "FressDrache": 65
+            }
+        },
+        {
+            "frameIndex": 26,
+            "values": {
+                "FressDrache": 47
+            }
+        },
+        {
+            "frameIndex": 31,
+            "values": {
+                "FressDrache": 65
+            }
+        },
+        {
+            "frameIndex": 36,
+            "values": {
+                "FressDrache": 47
+            }
+        },
+        {
+            "frameIndex": 41,
+            "values": {
+                "FressDrache": 65
+            }
+        },
+        {
+            "frameIndex": 46,
+            "values": {
+                "FressDrache": 47
+            }
+        },
+        {
+            "frameIndex": 56,
+            "values": {
+                "FressDrache": 111
+            }
+        }
+    ],
+    "config": {
+        "totalFrames": 56,
+        "fps": 10,
+        "currentFrameIndex": 92
+    }
+}
