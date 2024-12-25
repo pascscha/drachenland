@@ -22,7 +22,7 @@ async function startAnimation() {
 
         const animationConfig = getConfig();
         try {
-            const response = await fetch('/start_animation', {
+            const response = await fetch('/marionette/play', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -34,7 +34,7 @@ async function startAnimation() {
                 throw new Error('Failed to start animation');
             }
 
-            animationInterval = setInterval(animate, 1000 / fps); // Adjust interval as needed
+            animationInterval = setInterval(animate, 250); // Adjust interval as needed
         } catch (error) {
             console.error('Error starting animation:', error);
         }
@@ -48,7 +48,7 @@ async function stopAnimation() {
         clearInterval(animationInterval);
 
         try {
-            const response = await fetch('/stop_animation', {
+            const response = await fetch('/marionette/pause', {
                 method: 'POST',
             });
 
@@ -65,7 +65,7 @@ async function stopAnimation() {
 // Function to animate between keyframes
 async function animate() {
     try {
-        const response = await fetch('/current_index');
+        const response = await fetch('/marionette/current_index');
         if (!response.ok) {
             throw new Error('Failed to fetch current index');
         }

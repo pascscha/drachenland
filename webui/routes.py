@@ -40,3 +40,22 @@ def get_image():
         key: int(value) for key, value in flask.request.form.items()
     }
     return flask.jsonify({"status": "ok"})
+
+
+@webui.route("/marionette/play", methods=["POST"])
+def play():
+    animation = flask.request.json.get("animation")
+    webui.marionette_animator.start_animation(animation)
+    return flask.jsonify({"status": "ok"})
+
+
+@webui.route("/marionette/pause", methods=["POST"])
+def pause():
+    webui.marionette_animator.stop_animation()
+    return flask.jsonify({"status": "ok"})
+
+
+@webui.route("/marionette/current_index", methods=["GET"])
+def current_index():
+    current_frame = webui.marionette_animator.get_current_frame()
+    return flask.jsonify({"current_index": current_frame})
