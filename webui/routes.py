@@ -1,28 +1,42 @@
-from flask import Flask, render_template, Response
+import flask
 import cv2
 
-webui = Flask(__name__)
+webui = flask.Flask(__name__)
+
 
 @webui.route("/")
 def index():
-    return render_template("dashboard.html")
+    return flask.render_template("dashboard.html")
+
 
 @webui.route("/animation")
 def animation():
-    return render_template("animation.html")
+    return flask.render_template("animation.html")
+
 
 @webui.route("/camera")
 def camera():
-    return render_template("camera.html")
+    return flask.render_template("camera.html")
+
 
 @webui.route("/settings")
 def settings():
-    return render_template("settings.html")
+    return flask.render_template("settings.html")
 
-@webui.route('/capture_image')
+
+@webui.route("/capture_image")
 def capture_image():
     frame = webui.pose_estimator.get_image()
 
-    ret, buffer = cv2.imencode('.jpg', frame)
+    ret, buffer = cv2.imencode(".jpg", frame)
     frame_bytes = buffer.tobytes()
-    return Response(frame_bytes, mimetype='image/jpeg')
+    return flask.Response(frame_bytes, mimetype="image/jpeg")
+
+
+@webui.route("/marionette/set", methods=["POST"])
+def get_image():
+    # Set servo to slider positions
+    webui.marionette_animator.slider_values = {
+        key: int(value) for key, value in flask.request.form.items()
+    }
+    return flask.jsonify({"status": "ok"})

@@ -1,0 +1,139 @@
+{
+    "gpio": {
+        "servos": {
+            "0": {
+                "min": 0,
+                "max": 180,
+                "speed": 150,
+                "name": "ALa"
+            },
+            "1": {
+                "min": 180,
+                "max": 0,
+                "speed": 150,
+                "name": "ALiR"
+            },
+            "4": {
+                "min": 180,
+                "max": 0,
+                "speed": 150,
+                "name": "ARaR"
+            },
+            "5": {
+                "min": 0,
+                "max": 180,
+                "speed": 150,
+                "name": "ARi"
+            },
+            "3": {
+                "min": 180,
+                "max": 0,
+                "speed": 150,
+                "name": "SLR"
+            },
+            "7": {
+                "min": 0,
+                "max": 180,
+                "speed": 150,
+                "name": "SR"
+            },
+            "2": {
+                "min": 0,
+                "max": 180,
+                "speed": 150,
+                "name": "BL"
+            },
+            "6": {
+                "min": 0,
+                "max": 180,
+                "speed": 150,
+                "name": "BRR"
+            },
+            "8": {
+                "min": 0,
+                "max": 180,
+                "speed": 150,
+                "name": "K"
+            },
+            "14": {
+                "min": 30,
+                "max": 180,
+                "speed": 150,
+                "name": "KnopfSchlange"
+            },
+            "12": {
+                "min": 0,
+                "max": 60,
+                "speed": 150,
+                "name": "KopfDrache"
+            },
+            "11": {
+                "min": 65,
+                "max": 180,
+                "speed": 150,
+                "name": "LangDrache"
+            },
+            "13": {
+                "min": 70,
+                "max": 180,
+                "speed": 150,
+                "name": "PflanzenDrache"
+            },
+            "15": {
+                "min": 0,
+                "max": 180,
+                "speed": 150,
+                "name": "FressDrache"
+            },
+            "10": {
+                "min": 130,
+                "max": 150,
+                "speed": 150,
+                "name": "WippDrache"
+            },
+            "9": {
+                "min": 90,
+                "max": 160,
+                "speed": 150,
+                "name": "DreiDrachen"
+            }
+        },
+        "gpios": {
+            "4": {
+                "name": "1FlugDrache"
+            },
+            "14": {
+                "name": "Schwanzbeisser"
+            },
+            "15": {
+                "name": "Reiter"
+            },
+            "17": {
+                "name": "Reserve"
+            },
+            "18": {
+                "name": "HubAb"
+            },
+            "27": {
+                "name": "HubAuf"
+            },
+            "22": {
+                "name": "HubEin"
+            },
+            "23": {
+                "name": "2Flugdrachen"
+            },
+            "25": {
+                "name": "LedRot"
+            },
+            "11": {
+                "name": "LedGruen"
+            }
+        },
+        "inputs": {
+            "24": "Freigabe",
+            "10": "Test",
+            "9": "Start"
+        }
+    }
+}

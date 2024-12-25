@@ -1,6 +1,5 @@
 from adafruit_servokit import ServoKit
 import RPi.GPIO as GPIO
-import json
 
 
 class Servo:
@@ -78,10 +77,7 @@ class IoController:
                 servo.position = old_position
 
     @classmethod
-    def from_config(cls, config_path):
-        with open(config_path) as f:
-            config = json.load(f)
-
+    def from_config(cls, config):
         servos = {
             cfg["name"]: Servo(
                 cfg["name"],
