@@ -1,0 +1,51 @@
+{
+    "keyframes": [
+        {
+            "frameIndex": 0,
+            "values": {
+                "LangDrache": 69
+            }
+        },
+        {
+            "frameIndex": 64,
+            "values": {
+                "LangDrache": 149
+            }
+        },
+        {
+            "frameIndex": 69,
+            "values": {
+                "LangDrache": 120
+            }
+        },
+        {
+            "frameIndex": 74,
+            "values": {
+                "LangDrache": 149
+            }
+        },
+        {
+            "frameIndex": 79,
+            "values": {
+                "LangDrache": 120
+            }
+        },
+        {
+            "frameIndex": 84,
+            "values": {
+                "LangDrache": 149
+            }
+        },
+        {
+            "frameIndex": 93,
+            "values": {
+                "LangDrache": 69
+            }
+        }
+    ],
+    "config": {
+        "totalFrames": 93,
+        "fps": 10,
+        "currentFrameIndex": 0
+    }
+}
