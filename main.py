@@ -11,7 +11,7 @@ import threading
 from typing import Dict, Any
 import argparse
 
-import RPi.GPIO
+import RPi.GPIO as GPIO
 
 from webui import webui
 from marionette.pose import PoseEstimator
@@ -23,6 +23,7 @@ from marionette.animation import (
     BackgroundAnimation,
 )
 from marionette.orchestrator import Orchestrator
+from state import StateMachine, StateContext
 
 
 def setup_inputs(pin_config: Dict[str, Any]) -> None:
@@ -32,12 +33,80 @@ def setup_inputs(pin_config: Dict[str, Any]) -> None:
     Args:
         pin_config: Dictionary containing GPIO pin configurations
     """
-    for pin in pin_config:
-        RPi.GPIO.setup(
+    for pin in pin_config.values():
+        GPIO.setup(
             int(pin),
-            RPi.GPIO.IN,
-            pull_up_down=RPi.GPIO.PUD_DOWN,
+            GPIO.IN,
+            pull_up_down=GPIO.PUD_DOWN,
         )
+
+
+def create_animations(
+    config: Dict, pose_estimator: PoseEstimator
+) -> Dict[str, KeyFrameAnimation]:
+    """Create and return all animations used by the system."""
+    animations = {}
+
+    # Web UI animation
+    animations["webui"] = WebUIAnimation(priority=10, strength=0)
+
+    # Idle animation
+    animations["idle"] = KeyFrameAnimation.from_path(
+        config["animations"]["idle"], priority=0, strength=1
+    )
+
+    # Background animations
+    animations["background"] = BackgroundAnimation(
+        [
+            KeyFrameAnimation.from_path(
+                os.path.join(config["animations"]["background"], filename)
+            )
+            for filename in os.listdir(config["animations"]["background"])
+        ],
+        priority=0,
+        strength=1,
+    )
+
+    # Head animation
+    with open(config["animations"]["head"]) as f:
+        animation_data = json.load(f)
+
+    animations["head"] = HeadAnimation(
+        pose_estimator,
+        animation_data,
+        priority=9,
+    )
+
+    # Load other animations
+    animations["wave"] = KeyFrameAnimation.from_path(
+        config["animations"]["wave"], priority=10, strength=0
+    )
+    animations["dance"] = KeyFrameAnimation.from_path(
+        config["animations"]["dance"], priority=11, strength=0
+    )
+    animations["off"] = KeyFrameAnimation.from_path(
+        config["animations"]["off"], priority=100, strength=1, strength_speed=1
+    )
+    animations["led_red"] = KeyFrameAnimation.from_path(
+        config["animations"]["led"]["red"], priority=100, strength=0, strength_speed=100
+    )
+    animations["led_green"] = KeyFrameAnimation.from_path(
+        config["animations"]["led"]["green"],
+        priority=100,
+        strength=0,
+        strength_speed=100,
+    )
+    animations["led_green_blink"] = KeyFrameAnimation.from_path(
+        config["animations"]["led"]["green_blink"],
+        priority=101,
+        strength=0,
+        strength_speed=100,
+    )
+    animations["test"] = KeyFrameAnimation.from_path(
+        config["animations"]["test"], priority=200, strength=0
+    )
+
+    return animations
 
 
 def main() -> None:
@@ -57,7 +126,7 @@ def main() -> None:
     with open(args.config) as f:
         config = json.load(f)
 
-    # Initialize GPIO inputs
+    # Initialize GPIO
     setup_inputs(config["gpio"]["inputs"])
 
     # Initialize pose estimation and I/O controller
@@ -65,44 +134,18 @@ def main() -> None:
         PoseEstimator() as pose_estimator,
         ServoKitIoController.from_config(config["gpio"]) as io_controller,
     ):
-
+        # Create orchestrator
         orchestrator = Orchestrator(io_controller, 20)
 
-        # Configure web UI animation
-        webui.marionette_animator = WebUIAnimation(priority=10, strength=0)
-        orchestrator.add(webui.marionette_animator)
+        # Create animations
+        animations = create_animations(config, pose_estimator)
 
-        # Set up idle animation
-        idle = KeyFrameAnimation.from_path(
-            config["animations"]["idle"], priority=0, strength=1
-        )
-        orchestrator.add(idle)
+        # Add animations to orchestrator
+        for animation in animations.values():
+            orchestrator.add(animation)
 
-        # Set up background animations
-        background = BackgroundAnimation(
-            [
-                KeyFrameAnimation.from_path(
-                    os.path.join(config["animations"]["background"], filename)
-                )
-                for filename in os.listdir(config["animations"]["background"])
-            ],
-            priority=0,
-            strength=1,
-        )
-        orchestrator.add(background)
-
-        # Set up head animation
-        with open(config["animations"]["head"]) as f:
-            animation_data = json.load(f)
-
-        head_animation = HeadAnimation(
-            pose_estimator,
-            animation_data,
-            priority=9,
-        )
-        orchestrator.add(head_animation)
-
-        # Set up pose estimator for web UI
+        # Set up web UI
+        webui.marionette_animator = animations["webui"]
         webui.pose_estimator = pose_estimator
 
         # Start web server in a separate thread
@@ -111,6 +154,14 @@ def main() -> None:
         )
         server_thread.start()
 
+        # Create state machine
+        state_context = StateContext(
+            pose_estimator=pose_estimator,
+            animations=animations,
+            gpio_state={},
+        )
+        state_machine = StateMachine(state_context)
+
         # Main animation loop
         previous_time = time.time()
         while True:
@@ -118,6 +169,16 @@ def main() -> None:
             delta_time = current_time - previous_time
             previous_time = current_time
 
+            # Update GPIO state
+            state_context.gpio_state = {
+                "freigabe": GPIO.input(config["gpio"]["inputs"]["freigabe"])
+                == GPIO.HIGH,
+                "test": GPIO.input(config["gpio"]["inputs"]["test"]) == GPIO.HIGH,
+                "start": GPIO.input(config["gpio"]["inputs"]["start"]) == GPIO.HIGH,
+            }
+
+            # Update state machine and animations
+            state_machine.update()
             orchestrator.tick(delta_time)
 
 

@@ -1,0 +1,15 @@
+{
+    "keyframes": [
+        {
+            "frameIndex": 0,
+            "values": {
+                "LedRot": 180
+            }
+        }
+    ],
+    "config": {
+        "totalFrames": 10,
+        "fps": 1,
+        "currentFrameIndex": 0
+    }
+}
