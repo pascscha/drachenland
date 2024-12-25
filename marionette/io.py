@@ -3,13 +3,14 @@ import RPi.GPIO as GPIO
 
 
 class Servo:
-    def __init__(self, name, gpio_pin, speed, position=0, binary=False):
+    def __init__(self, name, gpio_pin, speed, position=0, reversed=False, binary=False):
         self.name = name
         self.gpio_pin = gpio_pin
         self.speed = speed
         self.position = position
         self.target_position = position
         self.binary = binary
+        self.reversed = reversed
 
     def set_target(self, target_position):
         self.target_position = target_position
@@ -84,6 +85,7 @@ class IoController:
                 int(idx),
                 cfg["speed"],
                 position=(cfg["min"] + cfg["max"]) / 2,
+                reversed=cfg["reversed"],
             )
             for idx, cfg in config["servos"].items()
         }
@@ -118,7 +120,7 @@ class ServoKitIoController(IoController):
                 if servo.position is None:
                     servo.position = 90
 
-                if servo.name in ["SR", "ALiR", "ARaR", "BRR"]:
+                if servo.reversed:
                     servo.position = 180 - servo.position
 
     def tick(self, delta_time):
@@ -131,7 +133,7 @@ class ServoKitIoController(IoController):
                 if servo.binary:
                     GPIO.output(servo.gpio_pin, angle > 90)
                 else:
-                    if servo.name in ["SR", "ALiR", "ARaR", "BRR"]:
+                    if servo.reversed:
                         angle = 180 - angle
 
                     angle = max(0, min(180, angle))
@@ -139,3 +141,13 @@ class ServoKitIoController(IoController):
                     self.kit.servo[servo.gpio_pin].angle = angle
             except Exception as e:
                 print("Error setting servo position:", e)
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_value, traceback):
+        for servo in self.servos.values():
+            if servo.binary:
+                servo.set_target(0)
+                servo.position = 0
+            self.tick(0.01)

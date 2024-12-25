@@ -32,13 +32,10 @@ class Animation:
 
 
 class KeyFrameAnimation(Animation):
-    def __init__(self, animation_path, *args, **kwargs):
+    def __init__(self, animation, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
         self.current_time = 0
-
-        with open(animation_path) as f:
-            animation = json.load(f)
 
         self.duration = (
             animation["config"]["totalFrames"] * 1 / animation["config"]["fps"]
@@ -64,6 +61,7 @@ class KeyFrameAnimation(Animation):
             keyframe["time"] = keyframe["frameIndex"] / animation["config"]["fps"]
 
         self.repetitions = None
+        self.fps = animation["config"]["fps"]
 
     def tick(self, delta):
         super().tick(delta)
@@ -171,7 +169,27 @@ class WebUIAnimation(Animation):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.slider_values = {}
+        self.animation = None
+
+    def start_animation(self, animation_data):
+        self.animation = KeyFrameAnimation(animation_data)
+        self.animation.current_time = (
+            animation_data["config"]["currentFrameIndex"]
+            / animation_data["config"]["fps"]
+        )
+
+    def get_current_frame(self):
+        if self.animation is None:
+            raise ValueError("Not Playing")
+        else:
+            return int(self.animation.current_time * self.animation.fps)
+
+    def stop_animation(self):
+        self.animation = None
 
     def tick(self, delta):
         super().tick(delta)
-        return self.slider_values
+        if self.animation is not None:
+            return self.animation.tick(delta)
+        else:
+            return self.slider_values

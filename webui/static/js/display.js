@@ -24,14 +24,6 @@ function handleSliderChange() {
             body: formData
         })
             .then(response => response.json())
-            .then(data => {
-                // Update the displayed image source
-                displayedImage.src = data.image_path;
-                imageName.innerHTML = data.image_path;
-
-                // Show the image container
-                imageContainer.style.display = "block";
-            })
             .catch(error => {
                 console.error("Error:", error);
             });

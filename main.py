@@ -53,10 +53,12 @@ def main() -> None:
     # Initialize GPIO inputs
     setup_inputs(config["gpio"]["inputs"])
 
-    # Initialize pose estimation and control systems
-    with PoseEstimator() as pose_estimator:
-        # Set up I/O controller and orchestrator
-        io_controller = ServoKitIoController.from_config(config["gpio"])
+    # Initialize pose estimation and I/O controller
+    with (
+        PoseEstimator() as pose_estimator,
+        ServoKitIoController.from_config(config["gpio"]) as io_controller,
+    ):
+
         orchestrator = Orchestrator(io_controller, 20)
 
         # Configure web UI animation

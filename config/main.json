@@ -5,97 +5,113 @@
                 "min": 0,
                 "max": 180,
                 "speed": 150,
-                "name": "ALa"
+                "name": "ALa",
+                "reversed": false
             },
             "1": {
                 "min": 180,
                 "max": 0,
                 "speed": 150,
-                "name": "ALiR"
+                "name": "ALiR",
+                "reversed": true
             },
             "4": {
                 "min": 180,
                 "max": 0,
                 "speed": 150,
-                "name": "ARaR"
+                "name": "ARaR",
+                "reversed": true
             },
             "5": {
                 "min": 0,
                 "max": 180,
                 "speed": 150,
-                "name": "ARi"
+                "name": "ARi",
+                "reversed": false
             },
             "3": {
                 "min": 180,
                 "max": 0,
                 "speed": 150,
-                "name": "SLR"
+                "name": "SLR",
+                "reversed": false
             },
             "7": {
                 "min": 0,
                 "max": 180,
                 "speed": 150,
-                "name": "SR"
+                "name": "SR",
+                "reversed": true
             },
             "2": {
                 "min": 0,
                 "max": 180,
                 "speed": 150,
-                "name": "BL"
+                "name": "BL",
+                "reversed": false
             },
             "6": {
                 "min": 0,
                 "max": 180,
                 "speed": 150,
-                "name": "BRR"
+                "name": "BRR",
+                "reversed": true
             },
             "8": {
                 "min": 0,
                 "max": 180,
                 "speed": 150,
-                "name": "K"
+                "name": "K",
+                "reversed": false
             },
             "14": {
                 "min": 30,
                 "max": 180,
                 "speed": 150,
-                "name": "KnopfSchlange"
+                "name": "KnopfSchlange",
+                "reversed": false
             },
             "12": {
                 "min": 0,
                 "max": 60,
                 "speed": 150,
-                "name": "KopfDrache"
+                "name": "KopfDrache",
+                "reversed": false
             },
             "11": {
                 "min": 65,
                 "max": 180,
                 "speed": 150,
-                "name": "LangDrache"
+                "name": "LangDrache",
+                "reversed": false
             },
             "13": {
                 "min": 70,
                 "max": 180,
                 "speed": 150,
-                "name": "PflanzenDrache"
+                "name": "PflanzenDrache",
+                "reversed": false
             },
             "15": {
                 "min": 0,
                 "max": 180,
                 "speed": 150,
-                "name": "FressDrache"
+                "name": "FressDrache",
+                "reversed": false
             },
             "10": {
                 "min": 130,
                 "max": 150,
                 "speed": 150,
-                "name": "WippDrache"
+                "name": "WippDrache",
+                "reversed": false
             },
             "9": {
                 "min": 90,
                 "max": 160,
                 "speed": 150,
-                "name": "DreiDrachen"
+                "name": "DreiDrachen",
+                "reversed": false
             }
         },
         "gpios": {
