@@ -1,0 +1,274 @@
+/* CSS Variables */
+:root {
+  --background-color: #1a1a1a;
+  --card-background: #2d2d2d;
+  --text-color: #ffffff;
+  --accent-color: #4CAF50;
+  --hover-color: #3d8b40;
+  --button-background: #666;
+  --button-hover: #888;
+  --modal-background: #333;
+}
+
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Base Styles */
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+  line-height: 1.6;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Typography */
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 2.5rem;
+  font-weight: 700;
+}
+
+/* Form Elements */
+form {
+  margin-bottom: 20px;
+}
+
+label {
+  display: inline-block;
+  width: 80px;
+  margin-bottom: 10px;
+}
+
+input[type='range'] {
+  width: calc(100% - 100px);
+  margin-left: 10px;
+  margin-bottom: 10px;
+}
+
+/* Slider Form Grid */
+#sliderForm {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-auto-rows: minmax(auto, auto);
+  gap: 10px;
+}
+
+#sliderForm > div:first-child {
+  grid-column: 1 / span 2;
+}
+
+/* Image Container */
+#imageContainer {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+#displayedImage {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
+/* Settings Section */
+.collapsible {
+  background-color: var(--modal-background);
+  color: var(--text-color);
+  cursor: pointer;
+  padding: 10px;
+  width: 100%;
+  text-align: left;
+  border: none;
+  outline: none;
+}
+
+.collapsible:hover {
+  background-color: var(--button-hover);
+}
+
+.settings-content {
+  display: none;
+  padding: 20px;
+  background-color: #444;
+}
+
+.settings-content button,
+.settings-content label,
+.settings-content input {
+  margin-bottom: 10px;
+  display: block;
+}
+
+/* Buttons */
+.settings-content button,
+#timelineControls button,
+#playPauseBtn,
+#settingsBtn,
+.refresh-button {
+  background-color: var(--button-background);
+  color: var(--text-color);
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.settings-content button:hover,
+#timelineControls button:hover,
+#playPauseBtn:hover,
+#settingsBtn:hover {
+  background-color: var(--button-hover);
+}
+
+.refresh-button {
+  background-color: var(--accent-color);
+  border-radius: 4px;
+  font-size: 16px;
+  padding: 10px 20px;
+  margin-top: 10px;
+}
+
+.refresh-button:hover {
+  background-color: var(--hover-color);
+}
+
+/* Timeline Section */
+#timelineContainer {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+#timelineControls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#timelineControls button {
+  margin: 0 5px;
+}
+
+canvas {
+  width: 100%;
+  max-width: 100%;
+}
+
+/* Modal Styles */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+  background-color: var(--modal-background);
+  color: var(--text-color);
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  max-width: 600px;
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: white;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Dashboard Card Grid */
+.dashboard {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+}
+
+.card {
+  background-color: var(--card-background);
+  border-radius: 1rem;
+  padding: 2rem;
+  text-align: center;
+  text-decoration: none;
+  color: var(--text-color);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.card i {
+  font-size: 3rem;
+  color: var(--accent-color);
+  margin-bottom: 1rem;
+}
+
+.card h2 {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.card p {
+  color: #999;
+  font-size: 1rem;
+}
+
+/* Media Queries */
+@media only screen and (max-width: 768px) {
+  .container {
+    padding: 10px;
+  }
+
+  .dashboard {
+    padding: 1rem;
+  }
+
+  header h1 {
+    font-size: 2rem;
+  }
+
+  .card-grid {
+    grid-template-columns: 1fr;
+  }
+
+  label {
+    width: 100%;
+    margin-bottom: 5px;
+  }
+
+  input[type='range'] {
+    width: 100%;
+    margin-left: 0;
+    margin-bottom: 10px;
+  }
+}

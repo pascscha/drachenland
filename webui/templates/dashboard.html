@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Control Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+</head>
+<body>
+    <div class="dashboard">
+        <header>
+            <h1>Control Dashboard</h1>
+        </header>
+        
+        <div class="card-grid">
+            <a href="{{ url_for('animation') }}" class="card">
+                <i class="fas fa-play-circle"></i>
+                <h2>Create Animation</h2>
+                <p>Create and manage servo animations</p>
+            </a>
+            
+            <a href="{{ url_for('camera') }}" class="card">
+                <i class="fas fa-video"></i>
+                <h2>Camera View</h2>
+                <p>View live camera feed</p>
+            </a>
+            
+            <a href="{{ url_for('settings') }}" class="card">
+                <i class="fas fa-cog"></i>
+                <h2>Settings</h2>
+                <p>Configure system settings</p>
+            </a>
+        </div>
+    </div>
+</body>
+</html>

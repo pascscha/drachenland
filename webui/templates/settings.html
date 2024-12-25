@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+</head>
+<body>
+    <div class="dashboard">
+        <header>
+            <a href="{{ url_for('index') }}" class="back-button">
+                <i class="fas fa-arrow-left"></i> Back
+            </a>
+            <h1>Settings</h1>
+        </header>
+        
+        <div class="settings-container">
+            <!-- Add your settings implementation here -->
+            <div class="settings-group">
+                <h2>Servo Configuration</h2>
+                <!-- Add servo settings -->
+            </div>
+            
+            <div class="settings-group">
+                <h2>GPIO Configuration</h2>
+                <!-- Add GPIO settings -->
+            </div>
+        </div>
+    </div>
+</body>
+</html>

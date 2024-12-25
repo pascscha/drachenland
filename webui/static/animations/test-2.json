@@ -1,0 +1,247 @@
+{
+  "keyframes": [
+    {
+      "frameIndex": 200,
+      "values": {
+        "K": 0,
+        "SR": 162,
+        "SLR": 162,
+        "ARaR": 90,
+        "ARi": 72,
+        "ALa": 90,
+        "ALiR": 0,
+        "BRR": 0,
+        "BL": 0
+      }
+    },
+    {
+      "frameIndex": 300,
+      "values": {
+        "K": 180,
+        "SR": 162,
+        "SLR": 162,
+        "ARaR": 90,
+        "ARi": 0,
+        "ALa": 0,
+        "ALiR": 0,
+        "BRR": 0,
+        "BL": 0
+      }
+    },
+    {
+      "frameIndex": 400,
+      "values": {
+        "K": 180,
+        "SR": 162,
+        "SLR": 162,
+        "ARaR": 90,
+        "ARi": 0,
+        "ALa": 0,
+        "ALiR": 162,
+        "BRR": 180,
+        "BL": 0
+      }
+    },
+    {
+      "frameIndex": 500,
+      "values": {
+        "K": 108,
+        "SR": 162,
+        "SLR": 162,
+        "ARaR": 0,
+        "ARi": 0,
+        "ALa": 54,
+        "ALiR": 36,
+        "BRR": 0,
+        "BL": 0
+      }
+    },
+    {
+      "frameIndex": 600,
+      "values": {
+        "K": 90,
+        "SR": 162,
+        "SLR": 162,
+        "ARaR": 90,
+        "ARi": 0,
+        "ALa": 0,
+        "ALiR": 162,
+        "BRR": 180,
+        "BL": 0
+      }
+    },
+    {
+      "frameIndex": 700,
+      "values": {
+        "K": 108,
+        "SR": 162,
+        "SLR": 162,
+        "ARaR": 0,
+        "ARi": 0,
+        "ALa": 54,
+        "ALiR": 0,
+        "BRR": 0,
+        "BL": 0
+      }
+    },
+    {
+      "frameIndex": 800,
+      "values": {
+        "K": 90,
+        "SR": 162,
+        "SLR": 162,
+        "ARaR": 90,
+        "ARi": 0,
+        "ALa": 0,
+        "ALiR": 162,
+        "BRR": 180,
+        "BL": 0
+      }
+    },
+    {
+      "frameIndex": 900,
+      "values": {
+        "K": 18,
+        "SR": 162,
+        "SLR": 162,
+        "ARaR": 125,
+        "ARi": 0,
+        "ALa": 0,
+        "ALiR": 0,
+        "BRR": 144,
+        "BL": 0
+      }
+    },
+    {
+      "frameIndex": 1000,
+      "values": {
+        "K": 90,
+        "SR": 162,
+        "SLR": 162,
+        "ARaR": 90,
+        "ARi": 0,
+        "ALa": 0,
+        "ALiR": 162,
+        "BRR": 180,
+        "BL": 0
+      }
+    },
+    {
+      "frameIndex": 1100,
+      "values": {
+        "K": 62,
+        "SR": 162,
+        "SLR": 162,
+        "ARaR": 0,
+        "ARi": 0,
+        "ALa": 90,
+        "ALiR": 54,
+        "BRR": 0,
+        "BL": 90
+      }
+    },
+    {
+      "frameIndex": 1200,
+      "values": {
+        "K": 90,
+        "SR": 162,
+        "SLR": 162,
+        "ARaR": 90,
+        "ARi": 0,
+        "ALa": 0,
+        "ALiR": 162,
+        "BRR": 180,
+        "BL": 0
+      }
+    },
+    {
+      "frameIndex": 1300,
+      "values": {
+        "K": 125,
+        "SR": 162,
+        "SLR": 162,
+        "ARaR": 0,
+        "ARi": 0,
+        "ALa": 90,
+        "ALiR": 54,
+        "BRR": 0,
+        "BL": 90
+      }
+    },
+    {
+      "frameIndex": 1400,
+      "values": {
+        "K": 90,
+        "SR": 162,
+        "SLR": 162,
+        "ARaR": 90,
+        "ARi": 0,
+        "ALa": 0,
+        "ALiR": 162,
+        "BRR": 180,
+        "BL": 0
+      }
+    },
+    {
+      "frameIndex": 1500,
+      "values": {
+        "K": 27,
+        "SR": 90,
+        "SLR": 90,
+        "ARaR": 0,
+        "ARi": 0,
+        "ALa": 0,
+        "ALiR": 0,
+        "BRR": 0,
+        "BL": 0
+      }
+    },
+    {
+      "frameIndex": 1600,
+      "values": {
+        "K": 90,
+        "SR": 162,
+        "SLR": 162,
+        "ARaR": 90,
+        "ARi": 0,
+        "ALa": 90,
+        "ALiR": 0,
+        "BRR": 0,
+        "BL": 0
+      }
+    },
+    {
+      "frameIndex": 1700,
+      "values": {
+        "K": 90,
+        "SR": 162,
+        "SLR": 162,
+        "ARaR": 125,
+        "ARi": 0,
+        "ALa": 125,
+        "ALiR": 0,
+        "BRR": 0,
+        "BL": 0
+      }
+    },
+    {
+      "frameIndex": 1800,
+      "values": {
+        "K": 90,
+        "SR": 125,
+        "SLR": 125,
+        "ARaR": 0,
+        "ARi": 0,
+        "ALa": 0,
+        "ALiR": 0,
+        "BRR": 0,
+        "BL": 0
+      }
+    }
+  ],
+  "config": {
+    "totalFrames": 1900,
+    "fps": 10,
+    "currentFrameIndex": 0
+  }
+}
