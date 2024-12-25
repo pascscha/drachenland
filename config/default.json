@@ -2,7 +2,16 @@
     "animations": {
         "head": "animations/head.json",
         "idle": "animations/idle.json",
-        "background": "animations/background"
+        "background": "animations/background",
+        "wave": "animations/wave.json",
+        "off": "animations/off.json",
+        "dance": "animations/dance.json",
+        "test": "animations/test.json",
+        "led": {
+            "red": "animations/led/led_red.json",
+            "green": "animations/led/led_green.json",
+            "green_blink": "animations/led/led_green_blink.json"
+        }
     },
     "gpio": {
         "servos": {
@@ -152,9 +161,9 @@
             }
         },
         "inputs": {
-            "24": "Freigabe",
-            "10": "Test",
-            "9": "Start"
+            "freigabe": 24,
+            "test": 10,
+            "start": 9
         }
     }
 }

@@ -1,0 +1,21 @@
+{
+    "keyframes": [
+        {
+            "frameIndex": 0,
+            "values": {
+                "LedGruen": 180
+            }
+        },
+        {
+            "frameIndex": 1,
+            "values": {
+                "LedGruen": 0
+            }
+        }
+    ],
+    "config": {
+        "totalFrames": 2,
+        "fps": 6,
+        "currentFrameIndex": 0
+    }
+}
