@@ -1,35 +1,31 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Camera View</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
-</head>
-<body>
-    <div class="dashboard">
-        <header>
-            <a href="{{ url_for('index') }}" class="back-button">
-                <i class="fas fa-arrow-left"></i> Back
-            </a>
-            <h1>Camera View</h1>
-        </header>
-        <div class="camera-container">
-            <div class="camera-feed">
-                <img src="{{ url_for('capture_image') }}" id="camera-image" alt="Camera Feed">
-                <button onclick="refreshImage()" class="refresh-button">
-                    <i class="fas fa-sync"></i> Refresh
-                </button>
-            </div>
+{% extends "base.html" %}
+
+{% block title %}Camera{% endblock %}
+
+{% block page_title %}Camera{% endblock %}
+
+{% include 'partials/header.html' %}
+
+{% block content %}
+<div class="camera-container">
+        <div class="camera-feed">
+            <img src="{{ url_for('capture_image') }}" id="camera-image" alt="Camera Feed">
+            <button onclick="refreshImage()" class="refresh-button">
+                <i class="fas fa-sync"></i> Refresh
+            </button>
         </div>
     </div>
+</div>
+{% endblock %}
 
-    <script>
-        function refreshImage() {
-            const img = document.getElementById('camera-image');
-            img.src = "{{ url_for('capture_image') }}?" + new Date().getTime(); // Add time to avoid caching
-        }
-    </script>
+{% block scripts %}
+<script>
+    function refreshImage() {
+        const img = document.getElementById('camera-image');
+        img.src = "{{ url_for('capture_image') }}?" + new Date().getTime(); // Add time to avoid caching
+    }
+</script>
+{% endblock %}
 </body>
+
 </html>
