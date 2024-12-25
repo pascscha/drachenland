@@ -4,7 +4,7 @@ import sys
 import cv2
 import threading
 import mediapipe as mp
-from io import ServoKitIoController
+from marionette.io import ServoKitIoController
 from enum import Enum, auto
 import RPi.GPIO as GPIO
 import random
@@ -129,6 +129,7 @@ class HeadAnimation(Animation):
         self.last_pose = target
         return target
 
+
 class IdleAnimation(Animation):
     def __init__(self, keyframe_animations, *args, expected_start=15, **kwargs):
         super().__init__(*args, **kwargs)
@@ -137,6 +138,7 @@ class IdleAnimation(Animation):
         self.active = {animation: False for animation in self.keyframe_animations}
 
     def tick(self, delta):
+        super().tick(delta)
         inactive = [
             animation for animation, is_active in self.active.items() if not is_active
         ]
@@ -163,3 +165,13 @@ class IdleAnimation(Animation):
                 self.active[animation] = False
 
         return out
+
+
+class WebUIAnimation(Animation):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.slider_values = {}
+
+    def tick(self, delta):
+        super().tick(delta)
+        return self.slider_values

@@ -40,9 +40,6 @@ class PoseEstimator:
 
                 self.image = cv2.flip(frame, 1)
 
-                # Convert the BGR image to RGB
-                # self.image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-
                 # Perform pose detection
                 self.pose = self.pose_detector.process(self.image)
                 self._update_pose_time(delta)

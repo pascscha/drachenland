@@ -15,17 +15,11 @@ function handleSliderChange() {
 
     for (const pair of formData.entries()) {
         const [name, value] = pair;
-
-        // Check if the input name is SLR, ALiR, or ARaR
-        if (name === 'SR' || name === 'ALiR' || name === 'ARaR' || name === "BRR") {
-            // Invert the value and set it back to the FormData object
-            formData.set(name, 180 - value);
-        }
     }
 
     if(!isPlaying){
         // Send AJAX request
-        fetch("/get_image", {
+        fetch("/marionette/set", {
             method: "POST",
             body: formData
         })
