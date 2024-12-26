@@ -8,10 +8,6 @@
 
 {% block content %}
 <div class="state-container">
-    <button onclick="refreshState()" class="refresh-button">
-        <i class="fas fa-sync"></i> Refresh
-    </button>
-
     <div class="state-info">
         <div class="current-state">
             <h2>Current State</h2>
@@ -63,7 +59,8 @@
     }
     // Initial load
     document.addEventListener('DOMContentLoaded', function () {
-        refreshState();
+        refreshState(); // Initial load
+        setInterval(refreshState, 1000); // Refresh every 1000ms (1 second)
     });
 </script>
 
