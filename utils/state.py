@@ -7,8 +7,8 @@ from enum import Enum
 from dataclasses import dataclass
 from typing import Dict
 
-from marionette.pose import PoseEstimator
-from marionette.animation import KeyFrameAnimation
+from diorama.pose import PoseEstimator
+from diorama.animation import KeyFrameAnimation
 import time
 
 

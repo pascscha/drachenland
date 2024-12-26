@@ -1,4 +1,4 @@
-# Drachenland
+# Drachenland Diorama
 
 ![Diorama in action](docs/images/wave.gif)
 

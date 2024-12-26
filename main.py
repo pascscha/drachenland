@@ -14,17 +14,17 @@ import argparse
 import RPi.GPIO as GPIO
 
 from webui import webui
-from marionette.pose import PoseEstimator
-from marionette.io import ServoKitIoController
-from marionette.animation import (
+from diorama.pose import PoseEstimator
+from diorama.io import ServoKitIoController
+from diorama.animation import (
     WebUIAnimation,
     HeadAnimation,
     KeyFrameAnimation,
     MultiKeyframeAnimation,
     BackgroundAnimation,
 )
-from marionette.orchestrator import Orchestrator
-from state import StateMachine, StateContext
+from diorama.orchestrator import Orchestrator
+from utils.state import StateMachine, StateContext
 
 
 def setup_inputs(pin_config: Dict[str, Any]) -> None:
