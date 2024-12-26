@@ -4,7 +4,7 @@ import sys
 import cv2
 import threading
 import mediapipe as mp
-from marionette.io import ServoKitIoController
+from diorama.io import ServoKitIoController
 from enum import Enum, auto
 import RPi.GPIO as GPIO
 import random
