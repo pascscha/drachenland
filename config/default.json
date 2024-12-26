@@ -5,7 +5,7 @@
         "background": "animations/background",
         "wave": "animations/wave.json",
         "off": "animations/off.json",
-        "dance": "animations/dance.json",
+        "dances": "animations/dances",
         "test": "animations/test.json",
         "led": {
             "red": "animations/led/led_red.json",

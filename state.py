@@ -72,7 +72,7 @@ class StateMachine:
         anims = self.context.animations
         anims["head"].animate_strength(0)
         anims["wave"].animate_strength(0)
-        anims["dance"].animate_strength(0)
+        anims["dances"].animate_strength(0)
 
         if (
             self.context.pose_estimator.presence_time > 0
@@ -84,7 +84,7 @@ class StateMachine:
         anims = self.context.animations
         anims["head"].animate_strength(1)
         anims["wave"].animate_strength(0)
-        anims["dance"].animate_strength(0)
+        anims["dances"].animate_strength(0)
         anims["test"].animate_strength(0)
 
         if (
@@ -116,12 +116,12 @@ class StateMachine:
             self.transition(State.OBSERVER)
 
         if self.time_in_state() > 2:
-            self.context.animations["dance"].current_time = 0
+            self.context.animations["dances"].start()
             self.transition(State.START_ANIMATION)
 
     def _handle_start_animation(self) -> None:
-        self.context.animations["dance"].animate_strength(1)
-        if self.time_in_state() > self.context.animations["dance"].duration:
+        self.context.animations["dances"].animate_strength(1)
+        if not self.context.animations["dances"].is_running:
             if self.context.pose_estimator.presence_time > 0:
                 self.transition(State.OBSERVER)
             else:
