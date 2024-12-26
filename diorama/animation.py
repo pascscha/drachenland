@@ -32,7 +32,7 @@ class Animation:
 
 
 class KeyFrameAnimation(Animation):
-    def __init__(self, animation, *args, **kwargs):
+    def __init__(self, animation, *args, name=None, **kwargs):
         super().__init__(*args, **kwargs)
 
         self.current_time = 0
@@ -63,12 +63,17 @@ class KeyFrameAnimation(Animation):
         self.repetitions = None
         self.fps = animation["config"]["fps"]
 
+        self.name = name
+
     @classmethod
-    def from_path(cls, file_path, *args, **kwargs):
+    def from_path(cls, file_path, *args, name=None, **kwargs):
         with open(file_path) as f:
             data = json.load(f)
 
-        return cls(data, *args, **kwargs)
+        if name is None:
+            name = os.path.basename(file_path)
+
+        return cls(data, *args, name=name, **kwargs)
 
     def tick(self, delta):
         super().tick(delta)

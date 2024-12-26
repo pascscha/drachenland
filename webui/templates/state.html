@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+
+{% block title %}State{% endblock %}
+
+{% block page_title %}State{% endblock %}
+
+{% include 'partials/header.html' %}
+
+{% block content %}
+<div class="state-container">
+    <button onclick="refreshState()" class="refresh-button">
+        <i class="fas fa-sync"></i> Refresh
+    </button>
+
+    <div class="state-info">
+        <div class="current-state">
+            <h2>Current State</h2>
+            <div id="state-value" class="state-value"></div>
+        </div>
+
+        <div class="parameters">
+            <h3>Parameters</h3>
+            <table class="state-table">
+                <tr>
+                    <td>Presence Time:</td>
+                    <td id="presence-time"></td>
+                </tr>
+                <tr>
+                    <td>Wave Time:</td>
+                    <td id="wave-time"></td>
+                </tr>
+                <tr>
+                    <td>Pose X:</td>
+                    <td id="pose-x"></td>
+                </tr>
+                <tr>
+                    <td>Dance Index:</td>
+                    <td id="dance-index"></td>
+                </tr>
+                <tr>
+                    <td>Current Dance:</td>
+                    <td id="current-dance"></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    function refreshState() {
+        fetch('/get_state')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('state-value').textContent = data.state;
+                document.getElementById('presence-time').textContent = data.presence_time !== null ? data.presence_time.toFixed(2) : "null";
+                document.getElementById('wave-time').textContent = data.wave_time !== null ? data.wave_time.toFixed(2) : "null";
+                document.getElementById('pose-x').textContent = data.pose_x !== null ? data.pose_x.toFixed(2) : "null";
+                document.getElementById('dance-index').textContent = data.dance_index;
+                document.getElementById('current-dance').textContent = data.current_dance;
+            });
+    }
+    // Initial load
+    document.addEventListener('DOMContentLoaded', function () {
+        refreshState();
+    });
+</script>
+
+<style>
+    .state-container {
+        padding: 20px;
+    }
+
+    .refresh-button {
+        padding: 10px 20px;
+        font-size: 1.2em;
+        margin-bottom: 20px;
+        cursor: pointer;
+    }
+
+    .state-info {
+        margin-top: 20px;
+    }
+
+    .current-state {
+        margin-bottom: 30px;
+    }
+
+    .state-value {
+        font-size: 2em;
+        font-weight: bold;
+        padding: 20px;
+        background-color: #262626;
+        border-radius: 5px;
+        display: inline-block;
+    }
+
+    .state-table {
+        width: 100%;
+        max-width: 500px;
+        border-collapse: collapse;
+    }
+
+    .state-table td {
+        padding: 10px;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .state-table td:first-child {
+        font-weight: bold;
+        width: 150px;
+    }
+</style>
+{% endblock %}

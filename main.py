@@ -145,16 +145,6 @@ def main() -> None:
         for animation in animations.values():
             orchestrator.add(animation)
 
-        # Set up web UI
-        webui.marionette_animator = animations["webui"]
-        webui.pose_estimator = pose_estimator
-
-        # Start web server in a separate thread
-        server_thread = threading.Thread(
-            target=webui.run, args=("0.0.0.0", 5001), daemon=True
-        )
-        server_thread.start()
-
         # Create state machine
         state_context = StateContext(
             pose_estimator=pose_estimator,
@@ -162,6 +152,17 @@ def main() -> None:
             gpio_state={},
         )
         state_machine = StateMachine(state_context)
+
+        # Set up web UI
+        webui.marionette_animator = animations["webui"]
+        webui.pose_estimator = pose_estimator
+        webui.state_machine = state_machine
+
+        # Start web server in a separate thread
+        server_thread = threading.Thread(
+            target=webui.run, args=("0.0.0.0", 5001), daemon=True
+        )
+        server_thread.start()
 
         # Main animation loop
         previous_time = time.time()

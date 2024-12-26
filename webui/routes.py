@@ -24,6 +24,28 @@ def settings():
     return flask.render_template("settings.html")
 
 
+@webui.route("/state")
+def state():  # Changed from settings() to state()
+    return flask.render_template("state.html")
+
+
+@webui.route("/get_state")
+def get_state():
+    pose_estimator = webui.state_machine.context.pose_estimator
+    dance_animations = webui.state_machine.context.animations["dances"]
+
+    return flask.jsonify(
+        {
+            "state": webui.state_machine.state.value,
+            "presence_time": pose_estimator.presence_time,
+            "wave_time": pose_estimator.wave_time,
+            "pose_x": pose_estimator.pose_x,
+            "dance_index": dance_animations.index,
+            "current_dance": dance_animations.animations[dance_animations.index].name,
+        }
+    )
+
+
 @webui.route("/capture_image")
 def capture_image():
     frame = webui.pose_estimator.get_image()
