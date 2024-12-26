@@ -9,10 +9,11 @@
 {% block content %}
 <div class="camera-container">
         <div class="camera-feed">
-            <img src="{{ url_for('capture_image') }}" id="camera-image" alt="Camera Feed">
             <button onclick="refreshImage()" class="refresh-button">
                 <i class="fas fa-sync"></i> Refresh
             </button>
+            <br>
+            <img src="{{ url_for('capture_image') }}" id="camera-image" alt="Camera Feed">
         </div>
     </div>
 </div>

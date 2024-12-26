@@ -59,3 +59,19 @@ def pause():
 def current_index():
     current_frame = webui.marionette_animator.get_current_frame()
     return flask.jsonify({"current_index": current_frame})
+
+
+@webui.route("/marionette/enabled", methods=["GET"])
+def get_enabled_status():
+    return flask.jsonify({"enabled": webui.marionette_animator.target_strength == 1})
+
+
+@webui.route("/marionette/enabled", methods=["POST"])
+def set_enabled_status():
+    data = flask.request.json
+    enabled = data.get("enabled", False)
+    if enabled:
+        webui.marionette_animator.animate_strength(1)
+    else:
+        webui.marionette_animator.animate_strength(0)
+    return flask.jsonify({"status": "ok", "enabled": enabled})

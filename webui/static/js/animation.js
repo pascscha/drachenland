@@ -673,5 +673,27 @@ window.onclick = function (event) {
     }
 }
 
+document.addEventListener('DOMContentLoaded', function() {
+    const toggleButton = document.getElementById('enableToggle');
+
+    // Check initial state
+    fetch('/marionette/enabled')
+        .then(response => response.json())
+        .then(data => {
+            toggleButton.checked = data.enabled;
+        });
+
+    toggleButton.addEventListener('change', function() {
+        const enabled = this.checked;
+        fetch('/marionette/enabled', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ enabled: enabled })
+        })
+    });
+});
+
 // Initial draw of the timeline
 drawTimeline();

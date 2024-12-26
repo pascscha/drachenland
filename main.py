@@ -49,7 +49,7 @@ def create_animations(
     animations = {}
 
     # Web UI animation
-    animations["webui"] = WebUIAnimation(priority=10, strength=0)
+    animations["webui"] = WebUIAnimation(priority=50, strength=0)
 
     # Idle animation
     animations["idle"] = KeyFrameAnimation.from_path(
