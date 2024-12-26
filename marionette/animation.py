@@ -105,35 +105,46 @@ class KeyFrameAnimation(Animation):
         }
 
 
-class HeadAnimation(Animation):
-    def __init__(self, pose_estimator, animation_data, *args, **kwargs):
+class MultiKeyframeAnimation(Animation):
+    def __init__(self, animations, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.animations = animations
+        self.index = 0
+        self.is_running = False
+        self.animation = None
 
-        self.left = animation_data["keyframes"][0]["values"]
-        self.neutral = animation_data["keyframes"][1]["values"]
-        self.right = animation_data["keyframes"][2]["values"]
-        self.pose_estimator = pose_estimator
-        self.last_pose = self.neutral
+    @classmethod
+    def from_path(cls, animations_dir, *args, **kwargs):
+        return cls(
+            [
+                KeyFrameAnimation.from_path(os.path.join(animations_dir, file_path))
+                for file_path in sorted(os.listdir(animations_dir))
+                if file_path.endswith(".json")
+            ],
+            *args,
+            **kwargs
+        )
 
-    def interpolate_values(self, x):
-        interpolated = {}
-        for key in self.left:
-            interpolated[key] = x * self.right[key] + (1 - x) * self.left[key]
-        return interpolated
+    def start(self):
+        self.is_running = True
+        self.animation = self.animations[self.index]
+        self.animation.current_time = 0
+        self.animation.repetitions = 1
 
     def tick(self, delta):
         super().tick(delta)
 
-        target = self.last_pose
+        if self.animation is not None:
+            values = self.animation.tick(delta)
 
-        if self.pose_estimator.pose_x is not None:
-            self.animate_strength(1)
-            target = self.interpolate_values(self.pose_estimator.pose_x)
+            if self.animation.repetitions <= 0:
+                self.animation = None
+                self.is_running = False
+                self.index = (self.index + 1) % len(self.animations)
+
+            return values
         else:
-            self.animate_strength(0)
-
-        self.last_pose = target
-        return target
+            return {}
 
 
 class BackgroundAnimation(Animation):
@@ -171,6 +182,37 @@ class BackgroundAnimation(Animation):
                 self.active[animation] = False
 
         return out
+
+
+class HeadAnimation(Animation):
+    def __init__(self, pose_estimator, animation_data, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.left = animation_data["keyframes"][0]["values"]
+        self.neutral = animation_data["keyframes"][1]["values"]
+        self.right = animation_data["keyframes"][2]["values"]
+        self.pose_estimator = pose_estimator
+        self.last_pose = self.neutral
+
+    def interpolate_values(self, x):
+        interpolated = {}
+        for key in self.left:
+            interpolated[key] = x * self.right[key] + (1 - x) * self.left[key]
+        return interpolated
+
+    def tick(self, delta):
+        super().tick(delta)
+
+        target = self.last_pose
+
+        if self.pose_estimator.pose_x is not None:
+            self.animate_strength(1)
+            target = self.interpolate_values(self.pose_estimator.pose_x)
+        else:
+            self.animate_strength(0)
+
+        self.last_pose = target
+        return target
 
 
 class WebUIAnimation(Animation):

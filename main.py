@@ -20,6 +20,7 @@ from marionette.animation import (
     WebUIAnimation,
     HeadAnimation,
     KeyFrameAnimation,
+    MultiKeyframeAnimation,
     BackgroundAnimation,
 )
 from marionette.orchestrator import Orchestrator
@@ -81,8 +82,8 @@ def create_animations(
     animations["wave"] = KeyFrameAnimation.from_path(
         config["animations"]["wave"], priority=10, strength=0
     )
-    animations["dance"] = KeyFrameAnimation.from_path(
-        config["animations"]["dance"], priority=11, strength=0
+    animations["dances"] = MultiKeyframeAnimation.from_path(
+        config["animations"]["dances"], priority=11, strength=0
     )
     animations["off"] = KeyFrameAnimation.from_path(
         config["animations"]["off"], priority=100, strength=1, strength_speed=1
