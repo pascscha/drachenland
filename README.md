@@ -8,7 +8,7 @@
 ## 🐲 About the Project
 This project controls an interactive diorama featuring a central Dragon King puppet and surrounding dragon and serpent figures.
 
-The exhibit will be displayed from **January to February 2025** at:
+The exhibit will be displayed from **January to beginning of March 2025** at:
 
 > [**Goldschmied Armin Limacher**](https://goldschmied-limacher.ch/kontakt/)
 >
@@ -27,7 +27,7 @@ The exhibit will be displayed from **January to February 2025** at:
 
 We respect your privacy:
 - 🔒 All processing happens on the device, the system is not connected to the internet
-- 🗂️ Images from the camera are deleted immeiately after processing
+- 🗂️ Images from the camera are never saved
 - 🖥️ The maintenance interface is not accessible remotely
 
 ---

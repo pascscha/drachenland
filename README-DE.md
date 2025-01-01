@@ -8,7 +8,7 @@
 ## 🐲 Über das Projekt
 Dieses Projekt steuert ein interaktives Diorama mit einer zentralen Drachenkönig-Marionette sowie umliegenden Drachen- und Schlangenfiguren.
 
-Die Ausstellung wird von **Januar bis Februar 2025** zu sehen sein bei:
+Die Ausstellung wird von **Januar bis Anfang März 2025** zu sehen sein bei:
 
 > [**Goldschmied Armin Limacher**](https://goldschmied-limacher.ch/kontakt/)
 >
@@ -27,7 +27,7 @@ Die Ausstellung wird von **Januar bis Februar 2025** zu sehen sein bei:
 
 Wir respektieren Ihre Privatsphäre:
 - 🔒 Alle Verarbeitungsvorgänge finden auf dem Gerät statt; das System ist nicht mit dem Internet verbunden
-- 🗂️ Bilder von der Kamera werden unmittelbar nach der Verarbeitung gelöscht
+- 🗂️ Bilder von der Kamera werden nicht gespeichert
 - 🖥️ Die Wartungsschnittstelle ist nicht aus der Ferne zugänglich
 
 ---
@@ -36,11 +36,11 @@ Wir respektieren Ihre Privatsphäre:
 
 ### Hardware
 
-Das Diorama wird von einem Raspberry Pi 4 Model B gesteuert, der als zentrale Steuereinheit des Systems dient. Er kontrolliert Servomotoren, die die Bewegungen der Marionette mit präziser Positionskontrolle steuern. Eine Kamera wird für Pose-Detektion verwendet, wodurch das Diorama Besucherbewegungen wahrnehmen und darauf reagieren kann.
+Das Diorama wird von einem Raspberry Pi 4 Model B gesteuert, das als zentrale Steuereinheit des Systems dient. Es kontrolliert Servomotoren, die die Bewegungen der Marionette mit präziser Positionskontrolle steuern. Eine Kamera wird für Posen-Erkennung verwendet, wodurch das Diorama Besucherbewegungen wahrnehmen und darauf reagieren kann.
 
 ### Software
 
-Die Software, die das Diorama antreibt, ist in Python geschrieben und verwendet [MediaPipe](https://ai.google.dev/edge/mediapipe/solutions/vision/pose_landmarker) für die Offline-Pose-Detektion auf dem Gerät. Eine Flask-basierte Weboberfläche ermöglicht eine einfache Konfiguration und Wartung. Das System enthält speziell entwickelte Mechanismen für Animationen und Verhaltenssteuerung sowie einen Zustandsautomaten, der die Interaktion mit Besuchern und Übergänge zwischen Animationen verwaltet.
+Die Software, die das Diorama antreibt, ist in Python geschrieben und verwendet [MediaPipe](https://ai.google.dev/edge/mediapipe/solutions/vision/pose_landmarker) für die Offline-Posen-Erkennung auf dem Gerät. Eine Flask-basierte Weboberfläche ermöglicht eine einfache Konfiguration und Wartung. Das System enthält speziell entwickelte Mechanismen für Animationen und Verhaltenssteuerung sowie einen Zustandsautomaten, der die Interaktion mit Besuchern und Übergänge zwischen Animationen verwaltet.
 
 ---
 
