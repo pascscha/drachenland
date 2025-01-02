@@ -23,8 +23,8 @@
                 "WippDrache": 120,
                 "DreiDrachen": 130,
                 "HubAb": 0,
-                "HubAuf": 0,
-                "HubEin": 0,
+                "HubAuf": 180,
+                "HubEin": 180,
                 "Schwanzbeisser": 0,
                 "Reiter": 0
             }

@@ -17,11 +17,12 @@
                 "Reiter": 0,
                 "Reserve": 0,
                 "HubAb": 0,
-                "HubAuf": 0,
-                "HubEin": 0,
+                "HubAuf": 180,
+                "HubEin": 180,
                 "2Flugdrachen": 0,
                 "LedRot": 0,
-                "LedGruen": 0
+                "LedGruen": 0,
+                "DreiDrachen": 0
             }
         }
     ],

@@ -58,6 +58,22 @@ class PoseEstimator:
         self.presence_time: float = 0.0
         self.wave_time: float = 0.0
 
+        # Fisheye Lense Correction
+        fx = 542.0
+        fy = 393.0
+        cx = 320.0
+        cy = 240.0
+        k1 = -0.14
+        k2 = -0.36
+        p1 = 0.03
+        p2 = -0.04
+
+        # Camera matrix and distortion coefficients
+        self.K = np.array([[fx, 0, cx], [0, fy, cy], [0, 0, 1]])
+        self.D = np.array([k1, k2, p1, p2])
+
+        self.rectify_maps = None
+
     def _run(self) -> None:
         """Main thread function handling webcam capture and pose detection."""
         while self.running:
@@ -91,7 +107,22 @@ class PoseEstimator:
             frame: Input frame from webcam
             delta: Time elapsed since last frame
         """
-        self.image = cv2.flip(frame, 1)
+        if self.rectify_maps is None:
+            h, w = frame.shape[:2]
+            new_K = cv2.fisheye.estimateNewCameraMatrixForUndistortRectify(
+                self.K, self.D, (w, h), np.eye(3)
+            )
+            self.rectify_maps = cv2.fisheye.initUndistortRectifyMap(
+                self.K, self.D, np.eye(3), new_K, (w, h), cv2.CV_32FC1
+            )
+
+        self.image = cv2.remap(
+            frame,
+            self.rectify_maps[0],
+            self.rectify_maps[1],
+            interpolation=cv2.INTER_LINEAR,
+        )[50:440, 108:550]
+
         self.pose = self._pose_detector.process(self.image)
         self._update_pose_time(delta)
         self._update_wave_time(delta)
@@ -107,7 +138,7 @@ class PoseEstimator:
             nose_landmark = self.pose.pose_landmarks.landmark[
                 mp.solutions.pose.PoseLandmark.NOSE
             ]
-            pose_x = nose_landmark.x
+            pose_x = 1 - nose_landmark.x
 
         self.pose_x = pose_x
         if self.pose_x is not None:

@@ -1398,7 +1398,7 @@
   ],
   "config": {
     "totalFrames": 300,
-    "fps": 8,
+    "fps": 10,
     "currentFrameIndex": 25
   }
 }
