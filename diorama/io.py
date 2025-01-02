@@ -136,9 +136,6 @@ class IoController:
 
                 if any(bef and not aft for bef, aft in zip(before, after)):
                     servo.position = old_position
-                    logger.warning(
-                        f"Servo {servo.name} movement constrained at position {old_position}"
-                    )
             except Exception as e:
                 logger.error(f"Error in tick for servo {servo.name}: {str(e)}")
                 logger.debug(traceback.format_exc())

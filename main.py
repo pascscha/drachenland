@@ -89,17 +89,17 @@ def create_animations(
         config["animations"]["off"], priority=100, strength=1, strength_speed=1
     )
     animations["led_red"] = KeyFrameAnimation.from_path(
-        config["animations"]["led"]["red"], priority=100, strength=0, strength_speed=100
+        config["animations"]["led"]["red"], priority=1000, strength=0, strength_speed=100
     )
     animations["led_green"] = KeyFrameAnimation.from_path(
         config["animations"]["led"]["green"],
-        priority=100,
+        priority=1000,
         strength=0,
         strength_speed=100,
     )
     animations["led_green_blink"] = KeyFrameAnimation.from_path(
         config["animations"]["led"]["green_blink"],
-        priority=101,
+        priority=1001,
         strength=0,
         strength_speed=100,
     )

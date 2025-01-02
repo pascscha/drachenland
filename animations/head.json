@@ -3,7 +3,7 @@
         {
             "frameIndex": 0,
             "values": {
-                "K": 40,
+                "K": 10,
                 "SR": 180,
                 "ARaR": 88,
                 "ARi": 10,
@@ -24,7 +24,7 @@
         {
             "frameIndex": 16,
             "values": {
-                "K": 144,
+                "K": 170,
                 "SR": 146,
                 "ARaR": 19,
                 "ARi": 12,
