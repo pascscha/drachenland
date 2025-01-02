@@ -2,11 +2,12 @@
     "animations": {
         "head": "animations/head.json",
         "idle": "animations/idle.json",
+        "close_mouth": "animations/close_mouth.json",
         "background": "animations/background",
         "wave": "animations/wave.json",
         "off": "animations/off.json",
         "dances": "animations/dances",
-        "test": "animations/test.json",
+        "test": "animations/dances/keyframes_julia.json",
         "led": {
             "red": "animations/led/led_red.json",
             "green": "animations/led/led_green.json",
@@ -18,34 +19,34 @@
             "0": {
                 "min": 0,
                 "max": 180,
-                "speed": 150,
+                "speed": 1000,
                 "name": "ALa",
                 "reversed": false
             },
             "1": {
-                "min": 180,
-                "max": 0,
-                "speed": 150,
+                "min": 5,
+                "max": 175,
+                "speed": 1000,
                 "name": "ALiR",
                 "reversed": true
             },
             "4": {
-                "min": 180,
-                "max": 0,
-                "speed": 150,
+                "min": 0,
+                "max": 180,
+                "speed": 1000,
                 "name": "ARaR",
                 "reversed": true
             },
             "5": {
-                "min": 0,
-                "max": 180,
-                "speed": 150,
+                "min": 5,
+                "max": 175,
+                "speed": 1000,
                 "name": "ARi",
                 "reversed": false
             },
             "3": {
-                "min": 180,
-                "max": 0,
+                "min": 0,
+                "max": 180,
                 "speed": 150,
                 "name": "SLR",
                 "reversed": false
@@ -60,14 +61,14 @@
             "2": {
                 "min": 0,
                 "max": 180,
-                "speed": 150,
+                "speed": 1000,
                 "name": "BL",
                 "reversed": false
             },
             "6": {
                 "min": 0,
                 "max": 180,
-                "speed": 150,
+                "speed": 1000,
                 "name": "BRR",
                 "reversed": true
             },
@@ -79,7 +80,7 @@
                 "reversed": false
             },
             "14": {
-                "min": 30,
+                "min": 0,
                 "max": 180,
                 "speed": 150,
                 "name": "KnopfSchlange",
@@ -87,20 +88,20 @@
             },
             "12": {
                 "min": 0,
-                "max": 60,
+                "max": 180,
                 "speed": 150,
                 "name": "KopfDrache",
                 "reversed": false
             },
             "11": {
-                "min": 65,
+                "min": 0,
                 "max": 180,
                 "speed": 150,
                 "name": "LangDrache",
                 "reversed": false
             },
             "13": {
-                "min": 70,
+                "min": 0,
                 "max": 180,
                 "speed": 150,
                 "name": "PflanzenDrache",
@@ -114,8 +115,8 @@
                 "reversed": false
             },
             "10": {
-                "min": 130,
-                "max": 150,
+                "min": 0,
+                "max": 180,
                 "speed": 150,
                 "name": "WippDrache",
                 "reversed": false

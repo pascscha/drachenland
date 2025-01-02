@@ -120,17 +120,23 @@ class StateMachine:
             self.transition(State.START_ANIMATION)
 
     def _handle_start_animation(self) -> None:
+        self.context.animations["close_mouth"].animate_strength(0)
         self.context.animations["dances"].animate_strength(1)
         if not self.context.animations["dances"].is_running:
+            self.context.animations["close_mouth"].current_time = 0
+            self.context.animations["close_mouth"].animate_strength(1)
             if self.context.pose_estimator.presence_time > 0:
                 self.transition(State.OBSERVER)
             else:
                 self.transition(State.NO_OBSERVERS)
 
     def _handle_test(self) -> None:
+        self.context.animations["close_mouth"].animate_strength(0)
         self.context.animations["test"].animate_strength(1)
         self.context.animations["led_green_blink"].animate_strength(1)
         if not self.context.gpio_state["test"]:
+            self.context.animations["close_mouth"].current_time = 0
+            self.context.animations["close_mouth"].animate_strength(1)
             self.context.animations["test"].animate_strength(0)
             self.context.animations["led_green_blink"].animate_strength(0)
             self.transition(State.NO_OBSERVERS)

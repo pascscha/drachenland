@@ -56,6 +56,11 @@ def create_animations(
         config["animations"]["idle"], priority=0, strength=1
     )
 
+    # Mouth closing animation
+    animations["close_mouth"] = KeyFrameAnimation.from_path(
+        config["animations"]["close_mouth"], priority=1, strength=0
+    )
+
     # Background animations
     animations["background"] = BackgroundAnimation(
         [
@@ -89,7 +94,10 @@ def create_animations(
         config["animations"]["off"], priority=100, strength=1, strength_speed=1
     )
     animations["led_red"] = KeyFrameAnimation.from_path(
-        config["animations"]["led"]["red"], priority=1000, strength=0, strength_speed=100
+        config["animations"]["led"]["red"],
+        priority=1000,
+        strength=0,
+        strength_speed=100,
     )
     animations["led_green"] = KeyFrameAnimation.from_path(
         config["animations"]["led"]["green"],

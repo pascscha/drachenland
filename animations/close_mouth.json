@@ -1,0 +1,33 @@
+{
+    "keyframes": [
+        {
+            "frameIndex": 0,
+            "values": {
+                "HubAb": 0,
+                "HubAuf": 180,
+                "HubEin": 180
+            }
+        },
+        {
+            "frameIndex": 50,
+            "values": {
+                "HubAb": 0,
+                "HubAuf": 0,
+                "HubEin": 0
+            }
+        },
+        {
+            "frameIndex": 100000,
+            "values": {
+                "HubAb": 0,
+                "HubAuf": 0,
+                "HubEin": 0
+            }
+        }
+    ],
+    "config": {
+        "totalFrames": 100000,
+        "fps": 10,
+        "currentFrameIndex": 0
+    }
+}
