@@ -122,8 +122,8 @@
                 "reversed": false
             },
             "9": {
-                "min": 90,
-                "max": 160,
+                "min": 0,
+                "max": 180,
                 "speed": 150,
                 "name": "DreiDrachen",
                 "reversed": false

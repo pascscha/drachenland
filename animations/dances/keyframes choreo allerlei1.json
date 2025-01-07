@@ -170,20 +170,17 @@
         "FressDrache": 0,
         "1FlugDrache": 180,
         "2Flugdrachen": 180,
-        "Reserve": 0,
         "SLR": 150,
         "ALa": 60,
         "ALiR": 0,
         "BL": 0,
-        "WippDrache": 140,
+        "WippDrache": 127,
         "DreiDrachen": 90,
         "HubAb": 0,
         "HubAuf": 0,
         "HubEin": 0,
         "Schwanzbeisser": 0,
-        "Reiter": 0,
-        "LedRot": 0,
-        "LedGruen": 0
+        "Reiter": 0
       }
     },
     {
@@ -232,8 +229,7 @@
         "FressDrache": 0,
         "1FlugDrache": 180,
         "2Flugdrachen": 180,
-        "Reserve": 0,
-        "SLR": 147,
+        "SLR": 161,
         "ALa": 90,
         "ALiR": 96,
         "BL": 0,
@@ -243,9 +239,7 @@
         "HubAuf": 0,
         "HubEin": 0,
         "Schwanzbeisser": 0,
-        "Reiter": 0,
-        "LedRot": 0,
-        "LedGruen": 0
+        "Reiter": 0
       }
     },
     {
@@ -313,7 +307,7 @@
     {
       "frameIndex": 141,
       "values": {
-        "K": 90,
+        "K": 45,
         "SR": 143,
         "ARaR": 56,
         "ARi": 17,
@@ -325,7 +319,6 @@
         "FressDrache": 0,
         "1FlugDrache": 0,
         "2Flugdrachen": 180,
-        "Reserve": 0,
         "SLR": 143,
         "ALa": 78,
         "ALiR": 114,
@@ -336,16 +329,14 @@
         "HubAuf": 0,
         "HubEin": 0,
         "Schwanzbeisser": 0,
-        "Reiter": 0,
-        "LedRot": 0,
-        "LedGruen": 0
+        "Reiter": 0
       }
     },
     {
       "frameIndex": 171,
       "values": {
         "K": 90,
-        "SR": 147,
+        "SR": 180,
         "ARaR": 75,
         "ARi": 22,
         "BRR": 0,
@@ -356,8 +347,7 @@
         "FressDrache": 0,
         "1FlugDrache": 0,
         "2Flugdrachen": 180,
-        "Reserve": 0,
-        "SLR": 147,
+        "SLR": 136,
         "ALa": 90,
         "ALiR": 96,
         "BL": 0,
@@ -367,16 +357,14 @@
         "HubAuf": 0,
         "HubEin": 0,
         "Schwanzbeisser": 0,
-        "Reiter": 0,
-        "LedRot": 0,
-        "LedGruen": 0
+        "Reiter": 0
       }
     },
     {
       "frameIndex": 181,
       "values": {
-        "K": 90,
-        "SR": 140,
+        "K": 163,
+        "SR": 162,
         "ARaR": 42,
         "ARi": 13,
         "BRR": 157,
@@ -387,8 +375,7 @@
         "FressDrache": 0,
         "1FlugDrache": 0,
         "2Flugdrachen": 180,
-        "Reserve": 0,
-        "SLR": 140,
+        "SLR": 152,
         "ALa": 30,
         "ALiR": 0,
         "BL": 1,
@@ -398,9 +385,7 @@
         "HubAuf": 0,
         "HubEin": 0,
         "Schwanzbeisser": 0,
-        "Reiter": 0,
-        "LedRot": 0,
-        "LedGruen": 0
+        "Reiter": 0
       }
     },
     {
@@ -468,8 +453,8 @@
     {
       "frameIndex": 251,
       "values": {
-        "K": 90,
-        "SR": 147,
+        "K": 46,
+        "SR": 180,
         "ARaR": 75,
         "ARi": 22,
         "BRR": 0,
@@ -480,7 +465,6 @@
         "FressDrache": 0,
         "1FlugDrache": 0,
         "2Flugdrachen": 0,
-        "Reserve": 0,
         "SLR": 147,
         "ALa": 90,
         "ALiR": 96,
@@ -491,9 +475,7 @@
         "HubAuf": 0,
         "HubEin": 180,
         "Schwanzbeisser": 0,
-        "Reiter": 0,
-        "LedRot": 0,
-        "LedGruen": 0
+        "Reiter": 0
       }
     },
     {
@@ -511,8 +493,7 @@
         "FressDrache": 0,
         "1FlugDrache": 0,
         "2Flugdrachen": 0,
-        "Reserve": 0,
-        "SLR": 137,
+        "SLR": 164,
         "ALa": 12,
         "ALiR": 0,
         "BL": 0,
@@ -522,9 +503,7 @@
         "HubAuf": 0,
         "HubEin": 180,
         "Schwanzbeisser": 0,
-        "Reiter": 175,
-        "LedRot": 0,
-        "LedGruen": 0
+        "Reiter": 175
       }
     },
     {
@@ -561,7 +540,7 @@
     {
       "frameIndex": 301,
       "values": {
-        "K": 130,
+        "K": 50,
         "SR": 137,
         "ARaR": 14,
         "ARi": 5,
@@ -573,8 +552,7 @@
         "FressDrache": 173,
         "1FlugDrache": 0,
         "2Flugdrachen": 0,
-        "Reserve": 0,
-        "SLR": 137,
+        "SLR": 167,
         "ALa": 10,
         "ALiR": 0,
         "BL": 168,
@@ -584,9 +562,7 @@
         "HubAuf": 180,
         "HubEin": 180,
         "Schwanzbeisser": 0,
-        "Reiter": 180,
-        "LedRot": 0,
-        "LedGruen": 0
+        "Reiter": 180
       }
     },
     {
@@ -686,7 +662,7 @@
       "frameIndex": 382,
       "values": {
         "K": 90,
-        "SR": 136,
+        "SR": 163,
         "ARaR": 8,
         "ARi": 3,
         "BRR": 0,
@@ -697,7 +673,6 @@
         "FressDrache": 128,
         "1FlugDrache": 0,
         "2Flugdrachen": 0,
-        "Reserve": 0,
         "SLR": 136,
         "ALa": 6,
         "ALiR": 0,
@@ -708,9 +683,7 @@
         "HubAuf": 0,
         "HubEin": 0,
         "Schwanzbeisser": 178,
-        "Reiter": 0,
-        "LedRot": 0,
-        "LedGruen": 0
+        "Reiter": 0
       }
     },
     {
@@ -872,6 +845,6 @@
   "config": {
     "totalFrames": 500,
     "fps": 30,
-    "currentFrameIndex": 20
+    "currentFrameIndex": 204
   }
 }
