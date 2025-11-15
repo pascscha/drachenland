@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
         button.addEventListener('click', () => button.parentElement.parentElement.remove());
         return button;
     }
-    
+
     function populateServos(servos) {
         servosConfigContainer.innerHTML = '';
         if (!servos) return;
@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
             servosConfigContainer.appendChild(item);
         }
     }
-    
+
     function populateGpios(gpios) {
         gpiosConfigContainer.innerHTML = '';
         if (!gpios) return;
@@ -68,15 +68,16 @@ document.addEventListener('DOMContentLoaded', () => {
         for (const name in inputs) {
             const pin = inputs[name];
             const item = document.createElement('div');
-            item.className = 'pin-config-item input-item';
+            item.className = 'input-item';
             const labelName = name.charAt(0).toUpperCase() + name.slice(1);
             item.innerHTML = `
-                <label>${labelName} Pin: <input type="number" name="${name}" value="${pin}" required></label>
+                <span>${labelName} Pin:</span>
+                <input type="number" name="${name}" value="${pin}" required>
             `;
             inputsConfigContainer.appendChild(item);
         }
     }
-    
+
     document.getElementById('add-servo').addEventListener('click', () => {
         const item = document.createElement('div');
         item.className = 'pin-config-item servo-item';
@@ -106,14 +107,14 @@ document.addEventListener('DOMContentLoaded', () => {
         item.querySelector('.pin-header').appendChild(createRemoveButton());
         gpiosConfigContainer.appendChild(item);
     });
-    
+
     function saveConfig(andRestart = false) {
         const newConfig = {
             servos: {},
             gpios: {},
             inputs: {}
         };
-        
+
         document.querySelectorAll('.servo-item').forEach(item => {
             const pin = item.querySelector('.pin-number').value;
             if (!pin) return;
@@ -125,7 +126,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 reversed: item.querySelector('[name="reversed"]').checked,
             };
         });
-        
+
         document.querySelectorAll('.gpio-item').forEach(item => {
             const pin = item.querySelector('.pin-number').value;
             if (!pin) return;
@@ -143,20 +144,20 @@ document.addEventListener('DOMContentLoaded', () => {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(newConfig)
         })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Failed to save configuration.');
-            }
-            return response.json();
-        })
-        .then(data => {
-            alert(data.message || 'Configuration saved.');
-            if (andRestart) {
-                alert('System is restarting now. Please wait a moment before reconnecting.');
-                fetch('/restart', { method: 'POST' });
-            }
-        })
-        .catch(error => alert('Error: ' + error.message));
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to save configuration.');
+                }
+                return response.json();
+            })
+            .then(data => {
+                alert(data.message || 'Configuration saved.');
+                if (andRestart) {
+                    alert('System is restarting now. Please wait a moment before reconnecting.');
+                    fetch('/restart', { method: 'POST' });
+                }
+            })
+            .catch(error => alert('Error: ' + error.message));
     }
 
     form.addEventListener('submit', (e) => {
@@ -165,6 +166,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     document.getElementById('restart-button').addEventListener('click', () => {
-        saveConfig(true);
+        if (confirm('Are you sure you want to save and restart? The system will be temporarily unavailable.')) {
+            saveConfig(true);
+        }
     });
 });
