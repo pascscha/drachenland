@@ -45,7 +45,7 @@ class PoseEstimator:
 
         self._pose_detector = mp.solutions.pose.Pose(
             static_image_mode=False,
-            model_complexity=1,
+            model_complexity=2,
             enable_segmentation=False,
             min_detection_confidence=0.7,
         )
@@ -122,6 +122,7 @@ class PoseEstimator:
             self.rectify_maps[1],
             interpolation=cv2.INTER_LINEAR,
         )[50:440, 108:550]
+        # self.image = cv2.flip(frame, 1)
 
         self.pose = self._pose_detector.process(self.image)
         self._update_pose_time(delta)
