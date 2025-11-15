@@ -64,10 +64,6 @@ input[type='range'] {
   gap: 10px;
 }
 
-#sliderForm>div:first-child {
-  grid-column: 1 / span 2;
-}
-
 /* Image Container */
 #imageContainer {
   text-align: center;
@@ -435,11 +431,11 @@ body {
   transition: .4s;
 }
 
-input:checked + .slider {
+input:checked+.slider {
   background-color: #2196F3;
 }
 
-input:checked + .slider:before {
+input:checked+.slider:before {
   transform: translateX(26px);
 }
 

@@ -4,6 +4,8 @@ import json
 import os
 import sys
 import math
+import shutil
+from datetime import datetime
 from functools import wraps
 from flask import request, Response
 
@@ -36,6 +38,11 @@ def requires_auth(f):
 webui = flask.Flask(__name__)
 
 
+@webui.context_processor
+def inject_globals():
+    return dict(local_url=webui.config.get("LOCAL_URL"))
+
+
 @webui.route("/")
 @requires_auth
 def index():
@@ -47,13 +54,10 @@ def index():
 def animation():
     with open(webui.config_path) as f:
         config = json.load(f)
-
     servos = sorted(list(config["gpio"]["servos"].values()), key=lambda x: x["name"])
     gpios = sorted(list(config["gpio"]["gpios"].values()), key=lambda x: x["name"])
-
     servo_half = math.ceil(len(servos) / 2)
     gpio_half = math.ceil(len(gpios) / 2)
-
     return flask.render_template(
         "animation.html",
         servos1=servos[:servo_half],
@@ -114,6 +118,13 @@ def capture_image():
 @requires_auth
 def gpio_config():
     if request.method == "POST":
+        if os.path.exists(webui.config_path):
+            config_dir, config_filename = os.path.split(webui.config_path)
+            name, ext = os.path.splitext(config_filename)
+            timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M")
+            backup_filename = f"{name}_{timestamp}{ext}"
+            backup_path = os.path.join(config_dir, backup_filename)
+            shutil.copy2(webui.config_path, backup_path)
         with open(webui.config_path, "r") as f:
             config = json.load(f)
         config["gpio"] = request.json

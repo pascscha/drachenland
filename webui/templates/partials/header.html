@@ -26,5 +26,12 @@
         <li><a href="{{ url_for('camera') }}"><i class="fas fa-video"></i> Camera</a></li>
         <li><a href="{{ url_for('state') }}"><i class="fas fa-gauge"></i> State</a></li>
         <li><a href="{{ url_for('settings') }}"><i class="fas fa-cogs"></i> Setup</a></li>
+        {% if local_url %}
+        <li style="border-top: 1px solid rgba(255, 255, 255, 0.1); margin-top: 1rem; padding-top: 1rem;">
+            <a href="{{ local_url }}" target="_blank" rel="noopener noreferrer">
+                <i class="fas fa-network-wired"></i> <span>{{ local_url }}</span>
+            </a>
+        </li>
+        {% endif %}
     </ul>
 </div>
