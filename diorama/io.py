@@ -114,6 +114,7 @@ class IoController:
         try:
             servos = {}
             for idx, cfg in config["servos"].items():
+                print(f"Setting up", cfg["name"], idx)
                 servos[cfg["name"]] = Servo(
                     cfg["name"],
                     int(idx),
@@ -121,6 +122,7 @@ class IoController:
                     position=(cfg["min"] + cfg["max"]) / 2,
                 )
             for gpio_pin, cfg in config["gpios"].items():
+                print(f"Setting up GPIO", cfg["name"], gpio_pin)
                 servos[cfg["name"]] = Servo(
                     cfg["name"], int(gpio_pin), 10000, position=0, binary=True
                 )
@@ -150,6 +152,7 @@ class ServoKitIoController(IoController):
             self.kit = ServoKit(channels=channels)
             self._initialize_servos()
         except Exception as e:
+            raise e
             logger.error(f"Failed to initialize ServoKit: {str(e)}")
             logger.debug(traceback.format_exc())
             raise ServoError(f"ServoKit initialization failed: {str(e)}")

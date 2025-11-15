@@ -34,7 +34,7 @@ def get_local_ip():
         s.close()
         return ip_address
     except Exception:
-        return "127.0.0.1"
+        return None
 
 
 def setup_inputs(pin_config: Dict[str, Any]) -> None:
@@ -63,32 +63,32 @@ def create_animations(
         config["animations"]["idle"], priority=0, strength=1
     )
     # Mouth closing animation
-    animations["close_mouth"] = KeyFrameAnimation.from_path(
-        config["animations"]["close_mouth"], priority=1, strength=0
-    )
+    # animations["close_mouth"] = KeyFrameAnimation.from_path(
+    #     config["animations"]["close_mouth"], priority=1, strength=0
+    # )
     # Background animations
-    animations["background"] = BackgroundAnimation(
-        [
-            KeyFrameAnimation.from_path(
-                os.path.join(config["animations"]["background"], filename)
-            )
-            for filename in os.listdir(config["animations"]["background"])
-        ],
-        priority=0,
-        strength=1,
-    )
+    # animations["background"] = BackgroundAnimation(
+    #     [
+    #         KeyFrameAnimation.from_path(
+    #             os.path.join(config["animations"]["background"], filename)
+    #         )
+    #         for filename in os.listdir(config["animations"]["background"])
+    #     ],
+    #     priority=0,
+    #     strength=1,
+    # )
     # Head animation
-    with open(config["animations"]["head"]) as f:
-        animation_data = json.load(f)
-    animations["head"] = HeadAnimation(
-        pose_estimator,
-        animation_data,
-        priority=9,
-    )
+    # with open(config["animations"]["head"]) as f:
+    #     animation_data = json.load(f)
+    # animations["head"] = HeadAnimation(
+    #     pose_estimator,
+    #     animation_data,
+    #     priority=9,
+    # )
     # Load other animations
-    animations["wave"] = KeyFrameAnimation.from_path(
-        config["animations"]["wave"], priority=10, strength=0
-    )
+    # animations["wave"] = KeyFrameAnimation.from_path(
+    #     config["animations"]["wave"], priority=10, strength=0
+    # )
     animations["dances"] = MultiKeyframeAnimation.from_path(
         config["animations"]["dances"], priority=11, strength=0
     )
@@ -105,7 +105,7 @@ def create_animations(
         config["animations"]["led"]["green"],
         priority=1000,
         strength=0,
-        Strength_speed=100,
+        strength_speed=100,
     )
     animations["led_green_blink"] = KeyFrameAnimation.from_path(
         config["animations"]["led"]["green_blink"],
@@ -131,7 +131,7 @@ def main() -> None:
     parser.add_argument(
         "--port",
         type=int,
-        default=5001,
+        default=5000,
         help="Port for the web UI (default: 5001)",
     )
     args = parser.parse_args()
@@ -166,8 +166,9 @@ def main() -> None:
         webui.state_machine = state_machine
 
         local_ip = get_local_ip()
-        webui.config["LOCAL_URL"] = f"http://{local_ip}:{args.port}"
-        print(f"* Access the web UI at: {webui.config['LOCAL_URL']}")
+        if local_ip:
+            webui.config["LOCAL_URL"] = f"http://{local_ip}:{args.port}"
+            print(f"* Access the web UI at: {webui.config['LOCAL_URL']}")
 
         # Start web server in a separate thread
         server_thread = threading.Thread(

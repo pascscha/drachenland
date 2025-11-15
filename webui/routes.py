@@ -162,7 +162,7 @@ def restart():
 def get_image():
     # Set servo to slider positions
     webui.marionette_animator.slider_values = {
-        key: int(value) for key, value in flask.request.form.items()
+        key: int(float(value)) for key, value in flask.request.form.items()
     }
     return flask.jsonify({"status": "ok"})
 

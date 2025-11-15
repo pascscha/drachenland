@@ -80,9 +80,9 @@ class StateMachine:
 
     def _handle_no_observers(self) -> None:
         anims = self.context.animations
-        anims["head"].animate_strength(0)
-        anims["wave"].animate_strength(0)
-        anims["dances"].animate_strength(0)
+        # anims["head"].animate_strength(0)
+        # anims["wave"].animate_strength(0)
+        # anims["dances"].animate_strength(0)
 
         if (
             self.context.pose_estimator.presence_time > 1
@@ -92,10 +92,10 @@ class StateMachine:
 
     def _handle_observer(self) -> None:
         anims = self.context.animations
-        anims["head"].animate_strength(1)
-        anims["wave"].animate_strength(0)
-        anims["dances"].animate_strength(0)
-        anims["test"].animate_strength(0)
+        # anims["head"].animate_strength(1)
+        # anims["wave"].animate_strength(0)
+        # anims["dances"].animate_strength(0)
+        # anims["test"].animate_strength(0)
 
         if (
             self.context.pose_estimator.wave_time > 0
@@ -109,7 +109,7 @@ class StateMachine:
             self.transition(State.NO_OBSERVERS)
 
     def _handle_wave(self) -> None:
-        self.context.animations["wave"].animate_strength(1)
+        # self.context.animations["wave"].animate_strength(1)
         if self.time_in_state() > 2:
             self.transition(State.OBSERVER)
         if (
@@ -119,7 +119,7 @@ class StateMachine:
             self.transition(State.WAVE_BACK)
 
     def _handle_wave_back(self) -> None:
-        self.context.animations["wave"].animate_strength(1)
+        # self.context.animations["wave"].animate_strength(1)
         if (
             self.context.pose_estimator.wave_time == 0
             and self.context.pose_estimator.presence_time < 12
@@ -127,16 +127,16 @@ class StateMachine:
             self.transition(State.OBSERVER)
 
         if self.time_in_state() > 2:
-            self.context.animations["dances"].start()
+            # self.context.animations["dances"].start()
             self.transition(State.START_ANIMATION)
             log_animation()
 
     def _handle_start_animation(self) -> None:
-        self.context.animations["close_mouth"].animate_strength(0)
-        self.context.animations["dances"].animate_strength(1)
+        # self.context.animations["close_mouth"].animate_strength(0)
+        # self.context.animations["dances"].animate_strength(1)
         if not self.context.animations["dances"].is_running:
-            self.context.animations["close_mouth"].current_time = 0
-            self.context.animations["close_mouth"].animate_strength(1)
+            # self.context.animations["close_mouth"].current_time = 0
+            # self.context.animations["close_mouth"].animate_strength(1)
             if self.context.pose_estimator.presence_time > 0:
                 self.context.pose_estimator.presence_time = 0.01
                 self.transition(State.OBSERVER)
@@ -144,12 +144,12 @@ class StateMachine:
                 self.transition(State.NO_OBSERVERS)
 
     def _handle_test(self) -> None:
-        self.context.animations["close_mouth"].animate_strength(0)
+        # self.context.animations["close_mouth"].animate_strength(0)
         self.context.animations["test"].animate_strength(1)
         self.context.animations["led_green_blink"].animate_strength(1)
         if not self.context.gpio_state["test"]:
-            self.context.animations["close_mouth"].current_time = 0
-            self.context.animations["close_mouth"].animate_strength(1)
+            # self.context.animations["close_mouth"].current_time = 0
+            # self.context.animations["close_mouth"].animate_strength(1)
             self.context.animations["test"].animate_strength(0)
             self.context.animations["led_green_blink"].animate_strength(0)
             self.transition(State.NO_OBSERVERS)
