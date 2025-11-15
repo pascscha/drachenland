@@ -3,8 +3,8 @@
     {
       "frameIndex": 0,
       "values": {
-        "LedRot": 0,
-        "LedGruen": 0
+        "LED: Rot": 0,
+        "LED: Grün": 0
       }
     }
   ],

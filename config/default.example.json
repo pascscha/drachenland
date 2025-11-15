@@ -152,10 +152,10 @@
                 "name": "2Flugdrachen"
             },
             "25": {
-                "name": "LedRot"
+                "name": "LED: Rot"
             },
             "11": {
-                "name": "LedGruen"
+                "name": "LED: Grün"
             }
         },
         "inputs": {

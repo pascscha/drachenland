@@ -27,8 +27,8 @@
           "HubAb": 0,
           "HubAuf": 0,
           "HubEin": 0,
-          "LedRot": 0,
-          "LedGruen": 0
+          "LED: Rot": 0,
+          "LED: Grün": 0
         }
       },
       {
@@ -58,8 +58,8 @@
           "HubAb": 0,
           "HubAuf": 0,
           "HubEin": 0,
-          "LedRot": 0,
-          "LedGruen": 0
+          "LED: Rot": 0,
+          "LED: Grün": 0
         }
       },
       {
@@ -89,8 +89,8 @@
           "HubAb": 0,
           "HubAuf": 0,
           "HubEin": 0,
-          "LedRot": 0,
-          "LedGruen": 0
+          "LED: Rot": 0,
+          "LED: Grün": 0
         }
       },
       {
@@ -120,8 +120,8 @@
           "HubAb": 0,
           "HubAuf": 0,
           "HubEin": 0,
-          "LedRot": 0,
-          "LedGruen": 0
+          "LED: Rot": 0,
+          "LED: Grün": 0
         }
       },
       {
@@ -151,8 +151,8 @@
           "HubAb": 0,
           "HubAuf": 0,
           "HubEin": 0,
-          "LedRot": 0,
-          "LedGruen": 0
+          "LED: Rot": 0,
+          "LED: Grün": 0
         }
       },
       {
@@ -182,8 +182,8 @@
           "HubAb": 0,
           "HubAuf": 0,
           "HubEin": 0,
-          "LedRot": 0,
-          "LedGruen": 0
+          "LED: Rot": 0,
+          "LED: Grün": 0
         }
       },
       {
@@ -213,8 +213,8 @@
           "HubAb": 0,
           "HubAuf": 0,
           "HubEin": 0,
-          "LedRot": 0,
-          "LedGruen": 0
+          "LED: Rot": 0,
+          "LED: Grün": 0
         }
       },
       {
@@ -244,8 +244,8 @@
           "HubAb": 0,
           "HubAuf": 0,
           "HubEin": 0,
-          "LedRot": 0,
-          "LedGruen": 0
+          "LED: Rot": 0,
+          "LED: Grün": 0
         }
       },
       {
@@ -275,8 +275,8 @@
           "HubAb": 0,
           "HubAuf": 0,
           "HubEin": 0,
-          "LedRot": 0,
-          "LedGruen": 0
+          "LED: Rot": 0,
+          "LED: Grün": 0
         }
       },
       {
@@ -306,8 +306,8 @@
           "HubAb": 180,
           "HubAuf": 0,
           "HubEin": 180,
-          "LedRot": 0,
-          "LedGruen": 0
+          "LED: Rot": 0,
+          "LED: Grün": 0
         }
       },
       {
@@ -337,8 +337,8 @@
           "HubAb": 179,
           "HubAuf": 0,
           "HubEin": 180,
-          "LedRot": 0,
-          "LedGruen": 0
+          "LED: Rot": 0,
+          "LED: Grün": 0
         }
       },
       {
@@ -368,8 +368,8 @@
           "HubAb": 180,
           "HubAuf": 0,
           "HubEin": 180,
-          "LedRot": 0,
-          "LedGruen": 0
+          "LED: Rot": 0,
+          "LED: Grün": 0
         }
       },
       {
@@ -399,8 +399,8 @@
           "HubAb": 180,
           "HubAuf": 0,
           "HubEin": 180,
-          "LedRot": 0,
-          "LedGruen": 0
+          "LED: Rot": 0,
+          "LED: Grün": 0
         }
       },
       {
@@ -430,8 +430,8 @@
           "HubAb": 180,
           "HubAuf": 0,
           "HubEin": 180,
-          "LedRot": 0,
-          "LedGruen": 0
+          "LED: Rot": 0,
+          "LED: Grün": 0
         }
       },
       {
@@ -461,8 +461,8 @@
           "HubAb": 0,
           "HubAuf": 180,
           "HubEin": 180,
-          "LedRot": 0,
-          "LedGruen": 0
+          "LED: Rot": 0,
+          "LED: Grün": 0
         }
       },
       {
@@ -492,8 +492,8 @@
           "HubAb": 0,
           "HubAuf": 180,
           "HubEin": 180,
-          "LedRot": 0,
-          "LedGruen": 0
+          "LED: Rot": 0,
+          "LED: Grün": 0
         }
       },
       {
@@ -523,8 +523,8 @@
           "HubAb": 0,
           "HubAuf": 0,
           "HubEin": 0,
-          "LedRot": 0,
-          "LedGruen": 0
+          "LED: Rot": 0,
+          "LED: Grün": 0
         }
       },
       {
@@ -554,8 +554,8 @@
           "HubAb": 0,
           "HubAuf": 0,
           "HubEin": 0,
-          "LedRot": 0,
-          "LedGruen": 0
+          "LED: Rot": 0,
+          "LED: Grün": 0
         }
       },
       {
@@ -585,8 +585,8 @@
           "HubAb": 0,
           "HubAuf": 0,
           "HubEin": 0,
-          "LedRot": 0,
-          "LedGruen": 0
+          "LED: Rot": 0,
+          "LED: Grün": 0
         }
       }
     ],

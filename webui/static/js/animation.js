@@ -132,12 +132,15 @@ function drawPose() {
 
 // Function to update sliders and draw timeline
 function updateSlidersAndDraw(values) {
-    console.log(values)
-    // Update sliders
+    // Update sliders and their value displays
     for (const motor in values) {
         const slider = document.getElementById(motor);
         if (slider) {
             slider.value = values[motor];
+            const valueDisplay = document.getElementById(`${motor}-value`);
+            if (valueDisplay) {
+                valueDisplay.textContent = `[${values[motor]}]`;
+            }
         }
     }
 
@@ -692,6 +695,20 @@ document.addEventListener('DOMContentLoaded', function () {
             },
             body: JSON.stringify({ enabled: enabled })
         })
+    });
+
+    // Add event listeners for sliders to show current value
+    const sliders = document.querySelectorAll('#sliderForm input[type="range"]');
+    sliders.forEach(slider => {
+        const valueSpan = document.getElementById(`${slider.id}-value`);
+        if (valueSpan) {
+            // Set initial value from slider's default
+            valueSpan.textContent = `[${slider.value}]`;
+            // Add listener to update on change
+            slider.addEventListener('input', event => {
+                valueSpan.textContent = `[${event.target.value}]`;
+            });
+        }
     });
 });
 
