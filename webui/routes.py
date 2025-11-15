@@ -1,6 +1,9 @@
 import flask
 import cv2
-
+import json
+import os
+import sys
+import math
 from functools import wraps
 from flask import request, Response
 
@@ -42,7 +45,22 @@ def index():
 @webui.route("/animation")
 @requires_auth
 def animation():
-    return flask.render_template("animation.html")
+    with open(webui.config_path) as f:
+        config = json.load(f)
+
+    servos = sorted(list(config["gpio"]["servos"].values()), key=lambda x: x["name"])
+    gpios = sorted(list(config["gpio"]["gpios"].values()), key=lambda x: x["name"])
+
+    servo_half = math.ceil(len(servos) / 2)
+    gpio_half = math.ceil(len(gpios) / 2)
+
+    return flask.render_template(
+        "animation.html",
+        servos1=servos[:servo_half],
+        servos2=servos[servo_half:],
+        gpios1=gpios[:gpio_half],
+        gpios2=gpios[gpio_half:],
+    )
 
 
 @webui.route("/camera")
@@ -68,10 +86,8 @@ def state():  # Changed from settings() to state()
 def get_state():
     pose_estimator = webui.state_machine.context.pose_estimator
     dance_animations = webui.state_machine.context.animations["dances"]
-
     with open("animation-log.log", "r") as f:
         timestamps = f.read().strip().split("\n")
-
     return flask.jsonify(
         {
             "state": webui.state_machine.state.value,
@@ -89,10 +105,45 @@ def get_state():
 @requires_auth
 def capture_image():
     frame = webui.pose_estimator.get_image()
-
     ret, buffer = cv2.imencode(".jpg", frame)
     frame_bytes = buffer.tobytes()
     return flask.Response(frame_bytes, mimetype="image/jpeg")
+
+
+@webui.route("/gpio_config", methods=["GET", "POST"])
+@requires_auth
+def gpio_config():
+    if request.method == "POST":
+        with open(webui.config_path, "r") as f:
+            config = json.load(f)
+        config["gpio"] = request.json
+        with open(webui.config_path, "w") as f:
+            json.dump(config, f, indent=4)
+        return flask.jsonify({"message": "Configuration saved successfully."})
+    else:
+        with open(webui.config_path) as f:
+            config = json.load(f)
+        return flask.jsonify(config.get("gpio", {}))
+
+
+@webui.route("/restart", methods=["POST"])
+@requires_auth
+def restart():
+    # This is a simple way to restart. Note it might not handle all edge cases.
+    try:
+        # Give the client time to receive the response
+        def do_restart():
+            import time
+
+            time.sleep(1)
+            os.execv(sys.executable, ["python"] + sys.argv)
+
+        from threading import Thread
+
+        Thread(target=do_restart).start()
+        return flask.jsonify({"message": "System is restarting..."})
+    except Exception as e:
+        return flask.jsonify({"error": str(e)}), 500
 
 
 @webui.route("/marionette/set", methods=["POST"])

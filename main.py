@@ -3,16 +3,13 @@
 Main module for the Marionette control system.
 Handles GPIO setup, pose estimation, and web UI integration.
 """
-
 import os
 import json
 import time
 import threading
 from typing import Dict, Any
 import argparse
-
 import RPi.GPIO as GPIO
-
 from webui import webui
 from diorama.pose import PoseEstimator
 from diorama.io import ServoKitIoController
@@ -30,7 +27,6 @@ from utils.state import StateMachine, StateContext
 def setup_inputs(pin_config: Dict[str, Any]) -> None:
     """
     Configure GPIO input pins with pull-down resistors.
-
     Args:
         pin_config: Dictionary containing GPIO pin configurations
     """
@@ -47,20 +43,16 @@ def create_animations(
 ) -> Dict[str, KeyFrameAnimation]:
     """Create and return all animations used by the system."""
     animations = {}
-
     # Web UI animation
     animations["webui"] = WebUIAnimation(priority=50, strength=0)
-
     # Idle animation
     animations["idle"] = KeyFrameAnimation.from_path(
         config["animations"]["idle"], priority=0, strength=1
     )
-
     # Mouth closing animation
     animations["close_mouth"] = KeyFrameAnimation.from_path(
         config["animations"]["close_mouth"], priority=1, strength=0
     )
-
     # Background animations
     animations["background"] = BackgroundAnimation(
         [
@@ -72,17 +64,14 @@ def create_animations(
         priority=0,
         strength=1,
     )
-
     # Head animation
     with open(config["animations"]["head"]) as f:
         animation_data = json.load(f)
-
     animations["head"] = HeadAnimation(
         pose_estimator,
         animation_data,
         priority=9,
     )
-
     # Load other animations
     animations["wave"] = KeyFrameAnimation.from_path(
         config["animations"]["wave"], priority=10, strength=0
@@ -120,7 +109,6 @@ def create_animations(
 
 def main() -> None:
     """Main program loop handling marionette control and animations."""
-
     parser = argparse.ArgumentParser(description="Process some arguments.")
     parser.add_argument(
         "--config",
@@ -162,13 +150,14 @@ def main() -> None:
         state_machine = StateMachine(state_context)
 
         # Set up web UI
+        webui.config_path = args.config
         webui.marionette_animator = animations["webui"]
         webui.pose_estimator = pose_estimator
         webui.state_machine = state_machine
 
         # Start web server in a separate thread
         server_thread = threading.Thread(
-            target=webui.run, args=("0.0.0.0", 5000), daemon=True
+            target=webui.run, args=("0.0.0.0", 5001), daemon=True
         )
         server_thread.start()
 
