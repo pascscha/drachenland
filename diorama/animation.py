@@ -170,6 +170,7 @@ class KeyFrameAnimation(Animation):
                 name: frame_before["values"][name] * (1 - progress)
                 + frame_after["values"][name] * progress
                 for name in frame_before["values"].keys()
+                if name in frame_before["values"] and name in frame_after["values"]
             }
 
         except Exception as e:
@@ -343,7 +344,9 @@ class HeadAnimation(Animation):
         """Interpolate between left and right poses."""
         try:
             return {
-                key: x * self.right[key] + (1 - x) * self.left[key] for key in self.left
+                key: x * self.right[key] + (1 - x) * self.left[key]
+                for key in self.left
+                if key in self.right and key in self.left
             }
         except Exception as e:
             logger.error(f"Error interpolating values: {str(e)}", exc_info=True)

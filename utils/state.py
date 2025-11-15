@@ -11,6 +11,16 @@ from diorama.pose import PoseEstimator
 from diorama.animation import KeyFrameAnimation
 import time
 
+from datetime import datetime
+
+def log_animation():
+    # Get the current date and time in ISO format
+    current_datetime = datetime.now().isoformat()
+    
+    # Open the log file in append mode and write the current datetime
+    with open('./animation-log.log', 'a') as log_file:
+        log_file.write(current_datetime + '\n')
+
 
 class State(Enum):
     NO_OBSERVERS = "no_observers"
@@ -75,7 +85,7 @@ class StateMachine:
         anims["dances"].animate_strength(0)
 
         if (
-            self.context.pose_estimator.presence_time > 0
+            self.context.pose_estimator.presence_time > 1
             or self.context.gpio_state["start"]
         ):
             self.transition(State.OBSERVER)
@@ -89,10 +99,11 @@ class StateMachine:
 
         if (
             self.context.pose_estimator.wave_time > 0
+            or self.context.pose_estimator.presence_time > 12
             or self.context.gpio_state["start"]
         ):
             self.transition(State.WAVE_BACK)
-        elif self.time_in_state() > 7:
+        elif self.time_in_state() > 2:
             self.transition(State.WAVE)
         elif self.context.pose_estimator.presence_time == 0:
             self.transition(State.NO_OBSERVERS)
@@ -111,13 +122,14 @@ class StateMachine:
         self.context.animations["wave"].animate_strength(1)
         if (
             self.context.pose_estimator.wave_time == 0
-            and not self.context.gpio_state["start"]
-        ):
+            and self.context.pose_estimator.presence_time < 12
+        ) and not self.context.gpio_state["start"]:
             self.transition(State.OBSERVER)
 
         if self.time_in_state() > 2:
             self.context.animations["dances"].start()
             self.transition(State.START_ANIMATION)
+            log_animation()
 
     def _handle_start_animation(self) -> None:
         self.context.animations["close_mouth"].animate_strength(0)
@@ -126,6 +138,7 @@ class StateMachine:
             self.context.animations["close_mouth"].current_time = 0
             self.context.animations["close_mouth"].animate_strength(1)
             if self.context.pose_estimator.presence_time > 0:
+                self.context.pose_estimator.presence_time = 0.01
                 self.transition(State.OBSERVER)
             else:
                 self.transition(State.NO_OBSERVERS)

@@ -168,7 +168,7 @@ def main() -> None:
 
         # Start web server in a separate thread
         server_thread = threading.Thread(
-            target=webui.run, args=("0.0.0.0", 5001), daemon=True
+            target=webui.run, args=("0.0.0.0", 5000), daemon=True
         )
         server_thread.start()
 

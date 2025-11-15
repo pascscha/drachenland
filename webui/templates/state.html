@@ -37,6 +37,10 @@
                     <td>Current Dance:</td>
                     <td id="current-dance"></td>
                 </tr>
+                <tr>
+                    <td>Number of Dances</td>
+                    <td id="n-started"></td>
+                </tr>
             </table>
         </div>
     </div>
@@ -55,6 +59,7 @@
                 document.getElementById('pose-x').textContent = data.pose_x !== null ? data.pose_x.toFixed(2) : "null";
                 document.getElementById('dance-index').textContent = data.dance_index;
                 document.getElementById('current-dance').textContent = data.current_dance;
+                document.getElementById('n-started').textContent = data.n_started;
             });
     }
     // Initial load
