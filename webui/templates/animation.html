@@ -1,13 +1,8 @@
 {% extends "base.html" %}
-
 {% block title %}Animation{% endblock %}
-
 {% block page_title %}Marionette Animator{% endblock %}
-
 {% include 'partials/header.html' %}
-
 {% block content %}
-
 <div class="container">
     <div class="toggle-container">
         <label class="switch">
@@ -16,68 +11,41 @@
         </label>
     </div>
 </div>
-
 <div class="container">
     <form id="sliderForm">
-        <div>
-            <p>Kopf</p>
-            <input type="range" id="K" name="K" min="0" max="180" value="0">
-        </div>
         <div class="left">
-            <p>Schulter rechts</p>
-            <input type="range" id="SR" name="SR" min="0" max="180" value="0">
-            <p>Arm rechts aussen</p>
-            <input type="range" id="ARaR" name="ARaR" min="0" max="180" value="0">
-            <p>Arm rechts innen</p>
-            <input type="range" id="ARi" name="ARi" min="0" max="180" value="0">
-            <p>Bein Rechts</p>
-            <input type="range" id="BRR" name="BRR" min="0" max="180" value="0">
+            {% for servo in servos1 %}
+            <p>{{ servo.name }}</p>
+            <input type="range" id="{{ servo.name }}" name="{{ servo.name }}" min="{{ servo.min }}"
+                max="{{ servo.max }}" value="{{ (servo.min + servo.max) / 2 }}">
+            {% endfor %}
+
+            {% if gpios1 %}
             <p><br></p>
-            <p>Knopf Schlange</p>
-            <input type="range" id="KnopfSchlange" name="KnopfSchlange" min="30" max="180" value="0">
-            <p>Kopf Drache</p>
-            <input type="range" id="KopfDrache" name="KopfDrache" min="0" max="60" value="0">
-            <p>Langer Drache</p>
-            <input type="range" id="LangDrache" name="LangDrache" min="65" max="180" value="0">
-            <p>Pflanzen Drache</p>
-            <input type="range" id="PflanzenDrache" name="PflanzenDrache" min="70" max="180" value="0">
-            <p>Fress Drache</p>
-            <input type="range" id="FressDrache" name="FressDrache" min="0" max="180" value="0">
-            <p><br></p>
-            <p>Einzelner Flugdrache</p>
-            <input type="range" id="1FlugDrache" name="1FlugDrache" min="0" max="180" value="0">
-            <p>Zwei Flugdrachen</p>
-            <input type="range" id="2Flugdrachen" name="2Flugdrachen" min="0" max="180" value="0">
+            {% endif %}
+
+            {% for gpio in gpios1 %}
+            <p>{{ gpio.name }}</p>
+            <input type="range" id="{{ gpio.name }}" name="{{ gpio.name }}" min="0" max="180" value="0">
+            {% endfor %}
         </div>
         <div class="right">
-            <p>Schulter links</p>
-            <input type="range" id="SLR" name="SLR" min="0" max="180" value="0">
-            <p>Arm links aussen</p>
-            <input type="range" id="ALa" name="ALa" min="0" max="180" value="0">
-            <p>Arm links innen</p>
-            <input type="range" id="ALiR" name="ALiR" min="0" max="180" value="0">
-            <p>Bein links</p>
-            <input type="range" id="BL" name="BL" min="0" max="180" value="0">
+            {% for servo in servos2 %}
+            <p>{{ servo.name }}</p>
+            <input type="range" id="{{ servo.name }}" name="{{ servo.name }}" min="{{ servo.min }}"
+                max="{{ servo.max }}" value="{{ (servo.min + servo.max) / 2 }}">
+            {% endfor %}
+
+            {% if gpios2 %}
             <p><br></p>
-            <p>Wipp Drache</p>
-            <input type="range" id="WippDrache" name="WippDrache" min="120" max="150" value="0">
-            <p>Drei Drachen</p>
-            <input type="range" id="DreiDrachen" name="DreiDrachen" min="0" max="180" value="0">
-            <p><br></p>
-            <p>Hub ab</p>
-            <input type="range" id="HubAb" name="HubAb" min="0" max="180" value="0">
-            <p>Hub auf</p>
-            <input type="range" id="HubAuf" name="HubAuf" min="0" max="180" value="0">
-            <p>Hub ein</p>
-            <input type="range" id="HubEin" name="HubEin" min="0" max="180" value="0">
-            <p>Schwanzbeisser</p>
-            <input type="range" id="Schwanzbeisser" name="Schwanzbeisser" min="0" max="180" value="0">
-            <p>Reiter</p>
-            <input type="range" id="Reiter" name="Reiter" min="0" max="180" value="0">
+            {% endif %}
+
+            {% for gpio in gpios2 %}
+            <p>{{ gpio.name }}</p>
+            <input type="range" id="{{ gpio.name }}" name="{{ gpio.name }}" min="0" max="180" value="0">
+            {% endfor %}
         </div>
     </form>
-
-
 </div>
 <div class="container">
     <div id="timelineContainer">
@@ -97,7 +65,6 @@
         <canvas id="timelineCanvas" width="800" height="100"></canvas>
         <div id="keyframes"></div>
     </div>
-
     <!-- Settings Modal -->
     <div id="settingsModal" class="modal">
         <div class="modal-content">
@@ -114,7 +81,6 @@
             <button id="applyBtn">Apply</button>
         </div>
     </div>
-
 </div>
 <div class="container">
     <div id="animationControls">
@@ -122,11 +88,7 @@
     </div>
 </div>
 {% endblock %}
-
 {% block scripts %}
 <script src="static/js/animation.js"></script>
 <script src="static/js/display.js"></script>
 {% endblock %}
-</body>
-
-</html>

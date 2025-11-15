@@ -12,24 +12,26 @@
         <header>
             <h1>Control Dashboard</h1>
         </header>
-        
         <div class="card-grid">
             <a href="{{ url_for('animation') }}" class="card">
                 <i class="fas fa-play-circle"></i>
                 <h2>Create Animation</h2>
                 <p>Create and manage servo animations</p>
             </a>
-            
             <a href="{{ url_for('camera') }}" class="card">
                 <i class="fas fa-video"></i>
                 <h2>Camera View</h2>
                 <p>View live camera feed</p>
             </a>
-            
             <a href="{{ url_for('state') }}" class="card">
                 <i class="fas fa-gauge"></i>
                 <h2>State</h2>
                 <p>Show the current state</p>
+            </a>
+            <a href="{{ url_for('settings') }}" class="card">
+                <i class="fas fa-cogs"></i>
+                <h2>Setup</h2>
+                <p>Configure GPIO and servos</p>
             </a>
         </div>
     </div>
