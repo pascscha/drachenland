@@ -3,35 +3,13 @@
         {
             "frameIndex": 0,
             "values": {
-                "K": 95,
-                "SR": 40,
-                "ARaR": 75,
-                "ARi": 62,
-                "BRR": 0,
-                "KnopfSchlange": 105,
-                "KopfDrache": 29,
-                "LangDrache": 120,
-                "PflanzenDrache": 87,
-                "FressDrache": 113,
-                "1FlugDrache": 0,
-                "2Flugdrachen": 0,
-                "Reserve": 0,
-                "SLR": 42,
-                "ALa": 58,
-                "ALiR": 66,
-                "BL": 0,
-                "WippDrache": 120,
-                "DreiDrachen": 130,
-                "HubAb": 0,
-                "HubAuf": 180,
-                "HubEin": 180,
-                "Schwanzbeisser": 0,
-                "Reiter": 0
+                "LedRot": 0,
+                "LedGruen": 0
             }
         }
     ],
     "config": {
-        "totalFrames": 100,
+        "totalFrames": 40,
         "fps": 10,
         "currentFrameIndex": 0
     }
