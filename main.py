@@ -62,6 +62,11 @@ def create_animations(
     animations["idle"] = KeyFrameAnimation.from_path(
         config["animations"]["idle"], priority=0, strength=1
     )
+    # Observer
+    animations["observer"] = KeyFrameAnimation.from_path(
+        config["animations"]["observer"], priority=1, strength=0
+    )
+
     # Mouth closing animation
     # animations["close_mouth"] = KeyFrameAnimation.from_path(
     #     config["animations"]["close_mouth"], priority=1, strength=0
@@ -90,7 +95,10 @@ def create_animations(
     #     config["animations"]["wave"], priority=10, strength=0
     # )
     animations["dances"] = MultiKeyframeAnimation.from_path(
-        config["animations"]["dances"], priority=11, strength=0
+        config["animations"]["dances"],
+        priority=11,
+        strength=0,
+        animation_duration=45,
     )
     animations["off"] = KeyFrameAnimation.from_path(
         config["animations"]["off"], priority=100, strength=1, strength_speed=1
@@ -116,6 +124,7 @@ def create_animations(
     animations["test"] = KeyFrameAnimation.from_path(
         config["animations"]["test"], priority=200, strength=0
     )
+    print(config["animations"]["test"])
     return animations
 
 

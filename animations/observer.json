@@ -3,14 +3,13 @@
         {
             "frameIndex": 0,
             "values": {
-                "LED: Rot": 0,
-                "LED: Grün": 0
+                "Wagen: Kletterkind": 180
             }
         }
     ],
     "config": {
-        "totalFrames": 40,
-        "fps": 10,
+        "totalFrames": 120,
+        "fps": 1,
         "currentFrameIndex": 0
     }
 }

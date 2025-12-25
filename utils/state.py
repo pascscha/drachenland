@@ -13,13 +13,14 @@ import time
 
 from datetime import datetime
 
+
 def log_animation():
     # Get the current date and time in ISO format
     current_datetime = datetime.now().isoformat()
-    
+
     # Open the log file in append mode and write the current datetime
-    with open('./animation-log.log', 'a') as log_file:
-        log_file.write(current_datetime + '\n')
+    with open("./animation-log.log", "a") as log_file:
+        log_file.write(current_datetime + "\n")
 
 
 class State(Enum):
@@ -70,8 +71,8 @@ class StateMachine:
         handlers = {
             State.NO_OBSERVERS: self._handle_no_observers,
             State.OBSERVER: self._handle_observer,
-            State.WAVE: self._handle_wave,
-            State.WAVE_BACK: self._handle_wave_back,
+            # State.WAVE: self._handle_wave,
+            # State.WAVE_BACK: self._handle_wave_back,
             State.START_ANIMATION: self._handle_start_animation,
             State.TEST: self._handle_test,
         }
@@ -80,9 +81,9 @@ class StateMachine:
 
     def _handle_no_observers(self) -> None:
         anims = self.context.animations
-        # anims["head"].animate_strength(0)
+        anims["observer"].animate_strength(0)
         # anims["wave"].animate_strength(0)
-        # anims["dances"].animate_strength(0)
+        anims["dances"].animate_strength(0)
 
         if (
             self.context.pose_estimator.presence_time > 1
@@ -92,48 +93,48 @@ class StateMachine:
 
     def _handle_observer(self) -> None:
         anims = self.context.animations
-        # anims["head"].animate_strength(1)
+        anims["observer"].animate_strength(1)
         # anims["wave"].animate_strength(0)
         # anims["dances"].animate_strength(0)
-        # anims["test"].animate_strength(0)
+        # anims["dances"].animate_strength(1)
 
         if (
-            self.context.pose_estimator.wave_time > 0
-            or self.context.pose_estimator.presence_time > 12
+            # self.context.pose_estimator.wave_time > 0
+            self.context.pose_estimator.presence_time > 8
             or self.context.gpio_state["start"]
         ):
-            self.transition(State.WAVE_BACK)
-        elif self.time_in_state() > 2:
-            self.transition(State.WAVE)
+            log_animation()
+            self.context.animations["dances"].start()
+            self.transition(State.START_ANIMATION)
         elif self.context.pose_estimator.presence_time == 0:
             self.transition(State.NO_OBSERVERS)
 
-    def _handle_wave(self) -> None:
-        # self.context.animations["wave"].animate_strength(1)
-        if self.time_in_state() > 2:
-            self.transition(State.OBSERVER)
-        if (
-            self.context.pose_estimator.wave_time > 0
-            or self.context.gpio_state["start"]
-        ):
-            self.transition(State.WAVE_BACK)
+    # def _handle_wave(self) -> None:
+    #     # self.context.animations["wave"].animate_strength(1)
+    #     if self.time_in_state() > 2:
+    #         self.transition(State.OBSERVER)
+    #     if (
+    #         self.context.pose_estimator.wave_time > 0
+    #         or self.context.gpio_state["start"]
+    #     ):
+    #         self.transition(State.WAVE_BACK)
 
-    def _handle_wave_back(self) -> None:
-        # self.context.animations["wave"].animate_strength(1)
-        if (
-            self.context.pose_estimator.wave_time == 0
-            and self.context.pose_estimator.presence_time < 12
-        ) and not self.context.gpio_state["start"]:
-            self.transition(State.OBSERVER)
+    # def _handle_wave_back(self) -> None:
+    #     # self.context.animations["wave"].animate_strength(1)
+    #     if (
+    #         self.context.pose_estimator.wave_time == 0
+    #         and self.context.pose_estimator.presence_time < 12
+    #     ) and not self.context.gpio_state["start"]:
+    #         self.transition(State.OBSERVER)
 
-        if self.time_in_state() > 2:
-            # self.context.animations["dances"].start()
-            self.transition(State.START_ANIMATION)
-            log_animation()
+    #     if self.time_in_state() > 2:
+    #         self.context.animations["dances"].start()
+    #         self.transition(State.START_ANIMATION)
+    #         log_animation()
 
     def _handle_start_animation(self) -> None:
         # self.context.animations["close_mouth"].animate_strength(0)
-        # self.context.animations["dances"].animate_strength(1)
+        self.context.animations["dances"].animate_strength(1)
         if not self.context.animations["dances"].is_running:
             # self.context.animations["close_mouth"].current_time = 0
             # self.context.animations["close_mouth"].animate_strength(1)
