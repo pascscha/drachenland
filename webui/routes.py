@@ -39,14 +39,15 @@ def requires_auth(f):
 
 webui = flask.Flask(__name__)
 
-BASE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..')
-ANIMATIONS_OPEN_PATH = os.path.join(BASE_DIR, 'animations', 'dances_open')
-ANIMATIONS_CLOSED_PATH = os.path.join(BASE_DIR, 'animations', 'dances_closed')
+BASE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")
+ANIMATIONS_OPEN_PATH = os.path.join(BASE_DIR, "animations", "dances_open")
+ANIMATIONS_CLOSED_PATH = os.path.join(BASE_DIR, "animations", "dances_closed")
+
 
 def get_animation_path(category):
-    if category == 'open':
+    if category == "open":
         return ANIMATIONS_OPEN_PATH
-    elif category == 'closed':
+    elif category == "closed":
         return ANIMATIONS_CLOSED_PATH
     return ValueError("Invalid category")
 
@@ -93,9 +94,9 @@ def manage_animations():
             return flask.redirect(request.url)
         file = request.files["file"]
         category = request.form.get("category", "closed")
-        
+
         target_path = get_animation_path(category)
-        
+
         if file.filename == "":
             return flask.redirect(request.url)
         if file and file.filename.endswith(".json"):
@@ -103,12 +104,18 @@ def manage_animations():
             file.save(os.path.join(target_path, filename))
         return flask.redirect(flask.url_for("manage_animations"))
 
-    animations_open = sorted([f for f in os.listdir(ANIMATIONS_OPEN_PATH) if f.endswith(".json")])
-    animations_closed = sorted([f for f in os.listdir(ANIMATIONS_CLOSED_PATH) if f.endswith(".json")])
-    
-    return flask.render_template("animations.html", 
-                               animations_open=animations_open, 
-                               animations_closed=animations_closed)
+    animations_open = sorted(
+        [f for f in os.listdir(ANIMATIONS_OPEN_PATH) if f.endswith(".json")]
+    )
+    animations_closed = sorted(
+        [f for f in os.listdir(ANIMATIONS_CLOSED_PATH) if f.endswith(".json")]
+    )
+
+    return flask.render_template(
+        "animations.html",
+        animations_open=animations_open,
+        animations_closed=animations_closed,
+    )
 
 
 @webui.route("/animations/download/<category>/<filename>", methods=["GET"])
@@ -149,20 +156,21 @@ def state():  # Changed from settings() to state()
 
 
 @webui.route("/get_state")
-
 @requires_auth
 def get_state():
     pose_estimator = webui.state_machine.context.pose_estimator
-    
-    schedule = webui.state_machine.context.config.get("opening_hours", get_default_schedule())
+
+    schedule = webui.state_machine.context.config.get(
+        "opening_hours", get_default_schedule()
+    )
     is_open = is_store_open(schedule)
-    
+
     target_anim_key = "dances_open" if is_open else "dances_closed"
     dance_animations = webui.state_machine.context.animations.get(target_anim_key)
-    
+
     with open("animation-log-2026.log", "r") as f:
         timestamps = f.read().strip().split("\n")
-        
+
     response = {
         "state": webui.state_machine.state.value,
         "is_open": "Open" if is_open else "Closed",
@@ -176,15 +184,16 @@ def get_state():
         response["dance_index"] = dance_animations.index
         # Check index bounds
         if 0 <= dance_animations.index < len(dance_animations.animations):
-            response["current_dance"] = dance_animations.animations[dance_animations.index].name
+            response["current_dance"] = dance_animations.animations[
+                dance_animations.index
+            ].name
         else:
-             response["current_dance"] = "Index out of bounds"
+            response["current_dance"] = "Index out of bounds"
     else:
         response["dance_index"] = "N/A"
         response["current_dance"] = "No animation set found"
 
     return flask.jsonify(response)
-
 
 
 @webui.route("/capture_image")
@@ -225,17 +234,18 @@ def config_schedule():
     if request.method == "POST":
         with open(webui.config_path, "r") as f:
             config = json.load(f)
-        
+
         config["opening_hours"] = request.json
-        
+
         with open(webui.config_path, "w") as f:
             json.dump(config, f, indent=4)
         return flask.jsonify({"message": "Schedule saved successfully."})
     else:
         with open(webui.config_path) as f:
             config = json.load(f)
-        
+
         from utils.time_utils import get_default_schedule
+
         return flask.jsonify(config.get("opening_hours", get_default_schedule()))
 
 

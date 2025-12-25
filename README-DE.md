@@ -1,52 +1,37 @@
 [🇬🇧 English](README.md) | [**🇨🇭 Deutsch**](README-DE.md)
 
-# Drachenland Diorama  
-![Python](https://img.shields.io/badge/python-3.11-blue.svg) ![Lizenz](https://img.shields.io/github/license/pascscha/drachenland)  
+# D'Vorfröid
 
-![Diorama in Aktion](docs/images/wave.gif)
+Dieses Projekt steuert ein interaktives Diorama, das Menschen zeigt, die für die kommende Fasnacht basteln und sich vorbereiten. Das Diorama zeigt die Vorfreude und kreative Energie der Fasnachtsvorbereitung.
 
-## 🐲 Über das Projekt
-Dieses Projekt steuert ein interaktives Diorama mit einer zentralen Drachenkönig-Marionette sowie umliegenden Drachen- und Schlangenfiguren.
+![Diorama in Aktion](docs/images/vorfreud.gif)
 
-Die Ausstellung wird von **Januar bis Anfang März 2025** zu sehen sein bei:
+Die Ausstellung ist von **Januar bis ende Fasnacht 2026** zu sehen bei:
 
 > [**Goldschmied Armin Limacher**](https://goldschmied-limacher.ch/kontakt/)
->
 > [Pilatusstrasse 23, 6003 Luzern](https://goldschmied-limacher.ch/kontakt/)
 
-### Hauptmerkmale
+## Was macht das Diorama besonders?
 
-- 👀 Die Drachenkönig-Marionette verfolgt Besucherbewegungen
-- 👋 Winken von Besuchern löst vorprogrammierte Tanzsequenzen und individuelle Animationen aus
-- 🔧 Eine webbasierte Wartungsschnittstelle für Anpassungen und Überwachung
-- ✍️ Erstellung von Animationen mit einem benutzerfreundlichen Keyframe-Editor
+- **Es sieht dich!** Die Figuren im Diorama starten sich zu bewegen, wenn du vor dem Schaufenster stehst.
+- **Lebendige Szenen**: Beobachte, wie die Figuren Masken basteln, Kostüme nähen und sich auf die Fasnacht vorbereiten
+- **Alles lokal**: Die Kamera verarbeitet Bilder nur im Arbeitsspeicher und die gesamte Verarbeitung findet auf dem Gerät statt.
 
-<!-- [![Demo ansehen](docs/images/video-thumbnail.png)](https://www.youtube.com/watch?v=YOUR_VIDEO_LINK) -->
+## Wie funktioniert's?
 
-### Datenschutz
+Das Diorama wird von einem kleinen Computer (Raspberry Pi) gesteuert, der:
+- Mit einer Kamera deine Bewegungen erkennt
+- Künstliche Intelligenz nutzt, um deine Posen zu verstehen
+- Die Servomotoren der Figuren entsprechend steuert
+- Alles komplett offline und ohne Internetverbindung macht
 
-Wir respektieren Ihre Privatsphäre:
-- 🔒 Alle Verarbeitungsvorgänge finden auf dem Gerät statt; das System ist nicht mit dem Internet verbunden
-- 🗂️ Bilder von der Kamera werden nicht gespeichert
-- 🖥️ Die Wartungsschnittstelle ist nicht aus der Ferne zugänglich
+- **Steuerung**: Raspberry Pi 4 Model B
+- **Bewegung**: Mehrere Servomotoren für die Figuren
+- **Vision**: Kameramodul mit [MediaPipe](https://ai.google.dev/edge/mediapipe/solutions/vision/pose_landmarker) für Posenerkennung (offline)
 
----
+## Betrieb
 
-## 📊 Technische Details
-
-### Hardware
-
-Das Diorama wird von einem Raspberry Pi 4 Model B gesteuert, das als zentrale Steuereinheit des Systems dient. Es kontrolliert Servomotoren, die die Bewegungen der Marionette mit präziser Positionskontrolle steuern. Eine Kamera wird für Posen-Erkennung verwendet, wodurch das Diorama Besucherbewegungen wahrnehmen und darauf reagieren kann.
-
-### Software
-
-Die Software, die das Diorama antreibt, ist in Python geschrieben und verwendet [MediaPipe](https://ai.google.dev/edge/mediapipe/solutions/vision/pose_landmarker) für die Offline-Posen-Erkennung auf dem Gerät. Eine Flask-basierte Weboberfläche ermöglicht eine einfache Konfiguration und Wartung. Das System enthält speziell entwickelte Mechanismen für Animationen und Verhaltenssteuerung sowie einen Zustandsautomaten, der die Interaktion mit Besuchern und Übergänge zwischen Animationen verwaltet.
-
----
-
-## 🔧 Installation
-
-Auch wenn es schwierig sein könnte, die Hardware exakt nachzubauen, können Sie die Software wie folgt installieren:
+Falls ihr zufällig selber dieses Diorama bei euch zu Hause rumstehen habt, könnt ihr natürlich die Software darauf starten!
 
 ```bash
 # Repository klonen
@@ -55,39 +40,12 @@ git clone https://github.com/pascscha/drachenland.git
 # Abhängigkeiten installieren
 pip install -r requirements.txt
 
-# GPIO-Pins konfigurieren
+# Konfiguration anpassen
 cp config/default.json.example config/default.json
-# Bearbeiten Sie config/default.json, um Ihre GPIO-Konfiguration anzupassen
-```
 
----
-
-### System starten
-
-Starten Sie das Hauptprogramm mit Ihrer Konfiguration:
-
-```bash
+# System starten
 python main.py --config config/default.json
+
+# Weboberfläche öffnen
+# http://[raspberry-pi-ip]:5000
 ```
-
-### Weboberfläche
-
-Greifen Sie auf das Wartungs-Dashboard im lokalen Netzwerk zu unter:
-
-```
-http://[raspberry-pi-ip]:5001
-```
-
-### Physische Steuerung
-
-Das Diorama verfügt über manuelle Übersteuerungsschalter:
-- **Start-Schalter**: Löst Animationen aus, als ob ein Besucher winkt
-- **Test-Schalter**: Startet eine Testsequenz
-- **Freigabe-Schalter**: Deaktiviert alle Animationen
-
-### Animationen erstellen
-
-1. Öffnen Sie den Animations-Editor über die Weboberfläche.
-2. Entwerfen Sie Bewegungen mit Keyframes und exportieren Sie diese als `.json`.
-3. Platzieren Sie die exportierte Datei im Verzeichnis `animations/`.
-4. Starten Sie das System neu, um Ihre benutzerdefinierten Animationen zu laden.
