@@ -1,19 +1,27 @@
 """Servo control module for RPi with error handling and logging capabilities."""
+
 import logging
 from typing import Dict, Optional, Sequence
 import traceback
 from adafruit_servokit import ServoKit
 import RPi.GPIO as GPIO
+
 # Configure logging
 logger = logging.getLogger(__name__)
 logging.basicConfig(
     level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 )
+
+
 class ServoError(Exception):
     """Base exception class for servo-related errors."""
+
     pass
+
+
 class Servo:
     """Class representing a servo motor with position control."""
+
     def __init__(
         self,
         name: str,
@@ -29,10 +37,12 @@ class Servo:
         self.target_position = position
         self.binary = binary
         logger.debug(f"Initialized servo {name} on pin {gpio_pin}")
+
     def set_target(self, target_position: float) -> None:
         """Set the target position for the servo."""
         self.target_position = target_position
         logger.debug(f"Servo {self.name}: Target position set to {target_position}")
+
     def tick(self, delta_time: float) -> float:
         """Update servo position based on time delta."""
         try:
@@ -46,23 +56,33 @@ class Servo:
             logger.error(f"Error in servo tick for {self.name}: {str(e)}")
             logger.debug(traceback.format_exc())
             return self.position
+
+
 class Constraint:
     """Base class for servo movement constraints."""
+
     def is_allowed(self, servo: Servo) -> bool:
         """Check if servo position is allowed."""
         raise NotImplementedError("This method should be implemented by subclasses")
+
+
 class RangeConstraint(Constraint):
     """Constraint limiting servo movement to a specific range."""
+
     def __init__(self, servo: Servo, min_position: float, max_position: float) -> None:
         self.servo = servo
         self.min_position = min_position
         self.max_position = max_position
+
     def is_allowed(self, servo: Servo) -> bool:
         if servo != self.servo:
             return True
         return self.min_position <= self.servo.position <= self.max_position
+
+
 class OverlapConstraint(Constraint):
     """Constraint preventing servo overlap in specified ranges."""
+
     def __init__(
         self,
         servo1: Servo,
@@ -74,23 +94,29 @@ class OverlapConstraint(Constraint):
         self.servo2 = servo2
         self.range1 = range1
         self.range2 = range2
+
     def is_allowed(self, servo: Servo) -> bool:
         if servo not in (self.servo1, self.servo2):
             return True
         in_range1 = self.range1[0] <= self.servo1.position <= self.range1[1]
         in_range2 = self.range2[0] <= self.servo2.position <= self.range2[1]
         return not (in_range1 and in_range2)
+
+
 class IoController:
     """Base class for IO control operations."""
+
     def __init__(
         self, servos: Sequence[Servo], constraints: Sequence[Constraint]
     ) -> None:
         self.servos = {servo.name: servo for servo in servos}
         self.constraints = constraints
         logger.info(f"Initialized IoController with {len(servos)} servos")
+
     def get_servo(self, name: str) -> Optional[Servo]:
         """Get servo by name."""
         return self.servos.get(name)
+
     def tick(self, delta_time: float) -> None:
         """Update all servos respecting constraints."""
         for servo in self.servos.values():
@@ -108,6 +134,7 @@ class IoController:
             except Exception as e:
                 logger.error(f"Error in tick for servo {servo.name}: {str(e)}")
                 logger.debug(traceback.format_exc())
+
     @classmethod
     def from_config(cls, config: Dict) -> "IoController":
         """Create IoController instance from configuration dictionary."""
@@ -139,8 +166,11 @@ class IoController:
             logger.error(f"Error creating IoController from config: {str(e)}")
             logger.debug(traceback.format_exc())
             raise ServoError(f"Failed to create IoController: {str(e)}")
+
+
 class ServoKitIoController(IoController):
     """IoController implementation for ServoKit hardware."""
+
     def __init__(
         self,
         servos: Sequence[Servo],
@@ -156,6 +186,7 @@ class ServoKitIoController(IoController):
             logger.error(f"Failed to initialize ServoKit: {str(e)}")
             logger.debug(traceback.format_exc())
             raise ServoError(f"ServoKit initialization failed: {str(e)}")
+
     def _initialize_servos(self) -> None:
         """Initialize all servos with their starting positions."""
         for servo in self.servos.values():
@@ -168,6 +199,7 @@ class ServoKitIoController(IoController):
             except Exception as e:
                 logger.error(f"Error initializing servo {servo.name}: {str(e)}")
                 logger.debug(traceback.format_exc())
+
     def tick(self, delta_time: float) -> None:
         """Update servo positions on hardware."""
         super().tick(delta_time)
@@ -182,8 +214,10 @@ class ServoKitIoController(IoController):
             except Exception as e:
                 logger.error(f"Error setting position for servo {servo.name}: {str(e)}")
                 logger.debug(traceback.format_exc())
+
     def __enter__(self) -> "ServoKitIoController":
         return self
+
     def __exit__(self, exc_type, exc_value, traceback) -> None:
         try:
             for servo in self.servos.values():

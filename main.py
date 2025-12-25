@@ -16,10 +16,8 @@ from diorama.pose import PoseEstimator
 from diorama.io import ServoKitIoController
 from diorama.animation import (
     WebUIAnimation,
-    HeadAnimation,
     KeyFrameAnimation,
     MultiKeyframeAnimation,
-    BackgroundAnimation,
 )
 from diorama.orchestrator import Orchestrator
 from utils.state import StateMachine, StateContext
@@ -69,14 +67,15 @@ def create_animations(
 
     # Check if we have split config for dances, if not fallback or create default
     dances_open_path = config["animations"].get("dances_open", "animations/dances_open")
-    dances_closed_path = config["animations"].get("dances_closed", "animations/dances_closed")
-    
+    dances_closed_path = config["animations"].get(
+        "dances_closed", "animations/dances_closed"
+    )
+
     # Ensure directories exist
     if not os.path.exists(dances_open_path):
         os.makedirs(dances_open_path)
     if not os.path.exists(dances_closed_path):
         os.makedirs(dances_closed_path)
-
 
     animations["dances_open"] = MultiKeyframeAnimation.from_path(
         dances_open_path,

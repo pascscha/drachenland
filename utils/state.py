@@ -27,8 +27,6 @@ def log_animation():
 class State(Enum):
     NO_OBSERVERS = "no_observers"
     OBSERVER = "observer"
-    WAVE = "wave"
-    WAVE_BACK = "wave_back"
     START_ANIMATION = "start_animation"
     TEST = "test"
 
@@ -90,8 +88,6 @@ class StateMachine:
         handlers = {
             State.NO_OBSERVERS: self._handle_no_observers,
             State.OBSERVER: self._handle_observer,
-            # State.WAVE: self._handle_wave,
-            # State.WAVE_BACK: self._handle_wave_back,
             State.START_ANIMATION: self._handle_start_animation,
             State.TEST: self._handle_test,
         }
@@ -101,13 +97,12 @@ class StateMachine:
     def _handle_no_observers(self) -> None:
         anims = self.context.animations
         anims["observer"].animate_strength(0)
-        # anims["wave"].animate_strength(0)
 
         anims["dances_open"].animate_strength(0)
         anims["dances_closed"].animate_strength(0)
 
         if (
-            self.context.pose_estimator.presence_time > 1
+            self.context.pose_estimator.presence_time > 3
             or self.context.gpio_state["start"]
         ):
             self.transition(State.OBSERVER)
@@ -115,59 +110,25 @@ class StateMachine:
     def _handle_observer(self) -> None:
         anims = self.context.animations
         anims["observer"].animate_strength(1)
-        # anims["wave"].animate_strength(0)
-        # anims["dances"].animate_strength(0)
-        # anims["dances"].animate_strength(1)
 
         if (
-            # self.context.pose_estimator.wave_time > 0
-            self.context.pose_estimator.presence_time > 8
+            self.context.pose_estimator.presence_time > 15
             or self.context.gpio_state["start"]
         ):
             log_animation()
-            
+
             # Determine which animation set to use
             schedule = self.context.config.get("opening_hours", get_default_schedule())
             is_open = is_store_open(schedule)
-            
+
             target_anim_key = "dances_open" if is_open else "dances_closed"
-                
+
             self.context.animations[target_anim_key].start()
             self.transition(State.START_ANIMATION)
         elif self.context.pose_estimator.presence_time == 0:
             self.transition(State.NO_OBSERVERS)
 
-    # def _handle_wave(self) -> None:
-    #     # self.context.animations["wave"].animate_strength(1)
-    #     if self.time_in_state() > 2:
-    #         self.transition(State.OBSERVER)
-    #     if (
-    #         self.context.pose_estimator.wave_time > 0
-    #         or self.context.gpio_state["start"]
-    #     ):
-    #         self.transition(State.WAVE_BACK)
-
-    # def _handle_wave_back(self) -> None:
-    #     # self.context.animations["wave"].animate_strength(1)
-    #     if (
-    #         self.context.pose_estimator.wave_time == 0
-    #         and self.context.pose_estimator.presence_time < 12
-    #     ) and not self.context.gpio_state["start"]:
-    #         self.transition(State.OBSERVER)
-
-    #     if self.time_in_state() > 2:
-    #         self.context.animations["dances"].start()
-    #         self.transition(State.START_ANIMATION)
-    #         log_animation()
-
     def _handle_start_animation(self) -> None:
-        # self.context.animations["close_mouth"].animate_strength(0)
-        
-        # We need to know which one is running to check if it's done, 
-        # or just animate strength for both potential targets if we didn't store which one started.
-        # Ideally we should correct animate_strength for the active one.
-        # But simpler: ensure all dance animations are set to strength 1 if valid.
-        
         # Check if any dance animation is running
         dances_running = False
         for key in ["dances_open", "dances_closed"]:
@@ -177,14 +138,9 @@ class StateMachine:
                     anim.animate_strength(1)
                     dances_running = True
                 else:
-                    # Ensure non-running ones are 0 strength? 
-                    # If start() was called, is_running should be true.
-                    # If it finished, is_running becomes false.
                     pass
 
         if not dances_running:
-            # self.context.animations["close_mouth"].current_time = 0
-            # self.context.animations["close_mouth"].animate_strength(1)
             if self.context.pose_estimator.presence_time > 0:
                 self.context.pose_estimator.presence_time = 0.01
                 self.transition(State.OBSERVER)
@@ -192,12 +148,9 @@ class StateMachine:
                 self.transition(State.NO_OBSERVERS)
 
     def _handle_test(self) -> None:
-        # self.context.animations["close_mouth"].animate_strength(0)
         self.context.animations["test"].animate_strength(1)
         self.context.animations["led_green_blink"].animate_strength(1)
         if not self.context.gpio_state["test"]:
-            # self.context.animations["close_mouth"].current_time = 0
-            # self.context.animations["close_mouth"].animate_strength(1)
             self.context.animations["test"].animate_strength(0)
             self.context.animations["led_green_blink"].animate_strength(0)
             self.transition(State.NO_OBSERVERS)
