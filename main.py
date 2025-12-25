@@ -166,6 +166,7 @@ def main() -> None:
             pose_estimator=pose_estimator,
             animations=animations,
             gpio_state={},
+            config=config,
         )
         state_machine = StateMachine(state_context)
         # Set up web UI

@@ -37,6 +37,7 @@ class StateContext:
     pose_estimator: PoseEstimator
     animations: Dict[str, KeyFrameAnimation]
     gpio_state: Dict[str, bool]
+    config: Dict
 
 
 class StateMachine:
@@ -44,6 +45,7 @@ class StateMachine:
         self.context = context
         self.state = State.NO_OBSERVERS
         self.state_start_time = time.time()
+        self.freigabe_off_start_time = None
 
     def transition(self, new_state: State) -> None:
         self.state = new_state
@@ -54,7 +56,23 @@ class StateMachine:
 
     def update(self) -> None:
         # Handle LED states based on freigabe switch
-        if not self.context.gpio_state["freigabe"]:
+        freigabe_config_timeout = self.context.config.get("gpio", {}).get(
+            "timeout", 1
+        )  # Minutes
+        freigabe_active = self.context.gpio_state["freigabe"]
+
+        if freigabe_active:
+            if self.freigabe_off_start_time is None:
+                self.freigabe_off_start_time = time.time()
+
+            # Check if timeout exceeded
+            elapsed_minutes = (time.time() - self.freigabe_off_start_time) / 60
+            if elapsed_minutes > freigabe_config_timeout:
+                freigabe_active = False
+        else:
+            self.freigabe_off_start_time = None
+
+        if not freigabe_active:
             self.context.animations["off"].animate_strength(0)
             self.context.animations["led_red"].animate_strength(0)
             self.context.animations["led_green"].animate_strength(1)

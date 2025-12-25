@@ -132,7 +132,7 @@ def state():  # Changed from settings() to state()
 def get_state():
     pose_estimator = webui.state_machine.context.pose_estimator
     dance_animations = webui.state_machine.context.animations["dances"]
-    with open("animation-log-2025.log", "r") as f:
+    with open("animation-log-2026.log", "r") as f:
         timestamps = f.read().strip().split("\n")
     return flask.jsonify(
         {
