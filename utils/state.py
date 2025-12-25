@@ -101,8 +101,11 @@ class StateMachine:
         anims["dances_open"].animate_strength(0)
         anims["dances_closed"].animate_strength(0)
 
+        presence_notice_time = self.context.config.get("gpio", {}).get(
+            "presence_notice_time", 3
+        )
         if (
-            self.context.pose_estimator.presence_time > 3
+            self.context.pose_estimator.presence_time > presence_notice_time
             or self.context.gpio_state["start"]
         ):
             self.transition(State.OBSERVER)
@@ -111,8 +114,11 @@ class StateMachine:
         anims = self.context.animations
         anims["observer"].animate_strength(1)
 
+        presence_trigger_time = self.context.config.get("gpio", {}).get(
+            "presence_trigger_time", 15
+        )
         if (
-            self.context.pose_estimator.presence_time > 15
+            self.context.pose_estimator.presence_time > presence_trigger_time
             or self.context.gpio_state["start"]
         ):
             log_animation()

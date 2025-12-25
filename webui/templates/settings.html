@@ -164,6 +164,19 @@
                 <span>Freigabe Timeout (minutes):</span>
                 <input type="number" id="freigabe-timeout" name="timeout" value="60" required>
             </div>
+            <div class="pin-config-item input-item">
+                <span>Presence Trigger Time (seconds):</span>
+                <input type="number" id="presence-trigger-time" name="presence_trigger_time" value="15" required>
+            </div>
+            <div class="pin-config-item input-item">
+                <span>Presence Notice Time (seconds):</span>
+                <input type="number" id="presence-notice-time" name="presence_notice_time" value="3" required>
+            </div>
+            <div class="pin-config-item input-item">
+                <span>Min Detection Confidence (0.0 - 1.0):</span>
+                <input type="number" id="min-detection-confidence" name="min_detection_confidence" value="0.8"
+                    step="0.01" min="0" max="1" required>
+            </div>
         </div>
 
         <div class="form-actions">

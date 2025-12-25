@@ -17,6 +17,15 @@ document.addEventListener('DOMContentLoaded', () => {
         if (gpioConfig.timeout !== undefined) {
             document.getElementById('freigabe-timeout').value = gpioConfig.timeout;
         }
+        if (gpioConfig.presence_trigger_time !== undefined) {
+            document.getElementById('presence-trigger-time').value = gpioConfig.presence_trigger_time;
+        }
+        if (gpioConfig.presence_notice_time !== undefined) {
+            document.getElementById('presence-notice-time').value = gpioConfig.presence_notice_time;
+        }
+        if (gpioConfig.min_detection_confidence !== undefined) {
+            document.getElementById('min-detection-confidence').value = gpioConfig.min_detection_confidence;
+        }
 
         populateSchedule(scheduleConfig);
     });
@@ -186,7 +195,10 @@ document.addEventListener('DOMContentLoaded', () => {
             servos: {},
             gpios: {},
             inputs: {},
-            timeout: parseInt(document.getElementById('freigabe-timeout').value) || 60
+            timeout: parseInt(document.getElementById('freigabe-timeout').value) || 60,
+            presence_trigger_time: parseInt(document.getElementById('presence-trigger-time').value) || 15,
+            presence_notice_time: parseInt(document.getElementById('presence-notice-time').value) || 3,
+            min_detection_confidence: parseFloat(document.getElementById('min-detection-confidence').value) || 0.8
         };
 
         document.querySelectorAll('.servo-item').forEach(item => {

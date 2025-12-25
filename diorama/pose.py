@@ -33,11 +33,13 @@ class PoseEstimator:
         detecting: Flag to enable/disable pose detection processing
     """
 
-    def __init__(self, fps: int = 10) -> None:
+    def __init__(self, fps: int = 10, min_detection_confidence: float = 0.8) -> None:
         """Initialize the PoseEstimator.
 
         Args:
             fps: Target frames per second for pose detection. Defaults to 10.
+            min_detection_confidence: Minimum confidence value ([0.0, 1.0]) for pose
+                detection to be considered successful. Defaults to 0.8.
         """
         self.fps = fps
         self.running: bool = False
@@ -47,7 +49,7 @@ class PoseEstimator:
             static_image_mode=False,
             model_complexity=2,
             enable_segmentation=False,
-            min_detection_confidence=0.8,
+            min_detection_confidence=min_detection_confidence,
         )
 
         self.image: Optional[NDArray] = None
