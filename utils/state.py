@@ -12,6 +12,7 @@ from diorama.animation import KeyFrameAnimation
 import time
 
 from datetime import datetime
+from utils.time_utils import is_store_open, get_default_schedule
 
 
 def log_animation():
@@ -101,7 +102,9 @@ class StateMachine:
         anims = self.context.animations
         anims["observer"].animate_strength(0)
         # anims["wave"].animate_strength(0)
-        anims["dances"].animate_strength(0)
+
+        anims["dances_open"].animate_strength(0)
+        anims["dances_closed"].animate_strength(0)
 
         if (
             self.context.pose_estimator.presence_time > 1
@@ -122,7 +125,14 @@ class StateMachine:
             or self.context.gpio_state["start"]
         ):
             log_animation()
-            self.context.animations["dances"].start()
+            
+            # Determine which animation set to use
+            schedule = self.context.config.get("opening_hours", get_default_schedule())
+            is_open = is_store_open(schedule)
+            
+            target_anim_key = "dances_open" if is_open else "dances_closed"
+                
+            self.context.animations[target_anim_key].start()
             self.transition(State.START_ANIMATION)
         elif self.context.pose_estimator.presence_time == 0:
             self.transition(State.NO_OBSERVERS)
@@ -152,8 +162,27 @@ class StateMachine:
 
     def _handle_start_animation(self) -> None:
         # self.context.animations["close_mouth"].animate_strength(0)
-        self.context.animations["dances"].animate_strength(1)
-        if not self.context.animations["dances"].is_running:
+        
+        # We need to know which one is running to check if it's done, 
+        # or just animate strength for both potential targets if we didn't store which one started.
+        # Ideally we should correct animate_strength for the active one.
+        # But simpler: ensure all dance animations are set to strength 1 if valid.
+        
+        # Check if any dance animation is running
+        dances_running = False
+        for key in ["dances_open", "dances_closed"]:
+            if key in self.context.animations:
+                anim = self.context.animations[key]
+                if anim.is_running:
+                    anim.animate_strength(1)
+                    dances_running = True
+                else:
+                    # Ensure non-running ones are 0 strength? 
+                    # If start() was called, is_running should be true.
+                    # If it finished, is_running becomes false.
+                    pass
+
+        if not dances_running:
             # self.context.animations["close_mouth"].current_time = 0
             # self.context.animations["close_mouth"].animate_strength(1)
             if self.context.pose_estimator.presence_time > 0:

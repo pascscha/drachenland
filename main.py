@@ -67,35 +67,25 @@ def create_animations(
         config["animations"]["observer"], priority=1, strength=0
     )
 
-    # Mouth closing animation
-    # animations["close_mouth"] = KeyFrameAnimation.from_path(
-    #     config["animations"]["close_mouth"], priority=1, strength=0
-    # )
-    # Background animations
-    # animations["background"] = BackgroundAnimation(
-    #     [
-    #         KeyFrameAnimation.from_path(
-    #             os.path.join(config["animations"]["background"], filename)
-    #         )
-    #         for filename in os.listdir(config["animations"]["background"])
-    #     ],
-    #     priority=0,
-    #     strength=1,
-    # )
-    # Head animation
-    # with open(config["animations"]["head"]) as f:
-    #     animation_data = json.load(f)
-    # animations["head"] = HeadAnimation(
-    #     pose_estimator,
-    #     animation_data,
-    #     priority=9,
-    # )
-    # Load other animations
-    # animations["wave"] = KeyFrameAnimation.from_path(
-    #     config["animations"]["wave"], priority=10, strength=0
-    # )
-    animations["dances"] = MultiKeyframeAnimation.from_path(
-        config["animations"]["dances"],
+    # Check if we have split config for dances, if not fallback or create default
+    dances_open_path = config["animations"].get("dances_open", "animations/dances_open")
+    dances_closed_path = config["animations"].get("dances_closed", "animations/dances_closed")
+    
+    # Ensure directories exist
+    if not os.path.exists(dances_open_path):
+        os.makedirs(dances_open_path)
+    if not os.path.exists(dances_closed_path):
+        os.makedirs(dances_closed_path)
+
+
+    animations["dances_open"] = MultiKeyframeAnimation.from_path(
+        dances_open_path,
+        priority=11,
+        strength=0,
+        animation_duration=45,
+    )
+    animations["dances_closed"] = MultiKeyframeAnimation.from_path(
+        dances_closed_path,
         priority=11,
         strength=0,
         animation_duration=45,
