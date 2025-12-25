@@ -4,16 +4,22 @@ document.addEventListener('DOMContentLoaded', () => {
     const inputsConfigContainer = document.getElementById('inputs-config');
     const form = document.getElementById('gpio-form');
 
-    fetch('/gpio_config')
-        .then(response => response.json())
-        .then(config => {
-            populateServos(config.servos);
-            populateGpios(config.gpios);
-            populateInputs(config.inputs);
-            if (config.timeout !== undefined) {
-                document.getElementById('freigabe-timeout').value = config.timeout;
-            }
-        });
+    const scheduleConfigContainer = document.getElementById('schedule-config');
+
+    Promise.all([
+        fetch('/gpio_config').then(r => r.json()),
+        fetch('/config/schedule').then(r => r.json())
+    ]).then(([gpioConfig, scheduleConfig]) => {
+        populateServos(gpioConfig.servos);
+        populateGpios(gpioConfig.gpios);
+        populateInputs(gpioConfig.inputs);
+
+        if (gpioConfig.timeout !== undefined) {
+            document.getElementById('freigabe-timeout').value = gpioConfig.timeout;
+        }
+
+        populateSchedule(scheduleConfig);
+    });
 
     function createRemoveButton() {
         const button = document.createElement('button');
@@ -81,6 +87,70 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    function populateSchedule(schedule) {
+        scheduleConfigContainer.innerHTML = '';
+        const days = [
+            { key: 'Mon', label: 'Mo' },
+            { key: 'Tue', label: 'Di' },
+            { key: 'Wed', label: 'Mi' },
+            { key: 'Thu', label: 'Do' },
+            { key: 'Fri', label: 'Fr' },
+            { key: 'Sat', label: 'Sa' },
+            { key: 'Sun', label: 'So' }
+        ];
+
+        days.forEach(day => {
+            const dayRanges = schedule[day.key] || [];
+            const dayDiv = document.createElement('div');
+            dayDiv.className = 'pin-config-item schedule-item';
+            dayDiv.dataset.day = day.key;
+
+            let rangesHtml = '';
+            dayRanges.forEach((range, index) => {
+                rangesHtml += `
+                    <div class="time-range" style="display: flex; gap: 10px; margin-bottom: 5px; align-items: center;">
+                        <input type="time" name="start" value="${range.start}" required>
+                        <span>-</span>
+                        <input type="time" name="end" value="${range.end}" required>
+                        <button type="button" class="remove-btn range-remove-btn" style="padding: 2px 6px;">&times;</button>
+                    </div>
+                `;
+            });
+
+            dayDiv.innerHTML = `
+                <div class="pin-header">
+                    <h4>${day.label}</h4>
+                    <button type="button" class="add-btn add-range-btn" style="padding: 2px 8px; font-size: 0.8em;">+ Add Time</button>
+                </div>
+                <div class="ranges-container">
+                    ${rangesHtml}
+                </div>
+            `;
+
+            // Add event listeners for this day block
+            dayDiv.querySelector('.add-range-btn').addEventListener('click', () => {
+                const container = dayDiv.querySelector('.ranges-container');
+                const rangeDiv = document.createElement('div');
+                rangeDiv.className = 'time-range';
+                rangeDiv.style.cssText = "display: flex; gap: 10px; margin-bottom: 5px; align-items: center;";
+                rangeDiv.innerHTML = `
+                    <input type="time" name="start" value="09:00" required>
+                    <span>-</span>
+                    <input type="time" name="end" value="17:00" required>
+                    <button type="button" class="remove-btn range-remove-btn" style="padding: 2px 6px;">&times;</button>
+                `;
+                rangeDiv.querySelector('.range-remove-btn').addEventListener('click', () => rangeDiv.remove());
+                container.appendChild(rangeDiv);
+            });
+
+            dayDiv.querySelectorAll('.range-remove-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => e.target.closest('.time-range').remove());
+            });
+
+            scheduleConfigContainer.appendChild(dayDiv);
+        });
+    }
+
     document.getElementById('add-servo').addEventListener('click', () => {
         const item = document.createElement('div');
         item.className = 'pin-config-item servo-item';
@@ -143,6 +213,49 @@ document.addEventListener('DOMContentLoaded', () => {
             newConfig.inputs[input.name] = parseInt(input.value);
         });
 
+        // Collect Schedule
+        const newSchedule = {};
+        document.querySelectorAll('.schedule-item').forEach(item => {
+            const dayKey = item.dataset.day;
+            const ranges = [];
+            item.querySelectorAll('.time-range').forEach(range => {
+                const start = range.querySelector('[name="start"]').value;
+                const end = range.querySelector('[name="end"]').value;
+                if (start && end) {
+                    ranges.push({ start, end });
+                }
+            });
+            newSchedule[dayKey] = ranges;
+        });
+
+        Promise.all([
+            fetch('/gpio_config', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(newConfig)
+            }),
+            fetch('/config/schedule', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(newSchedule)
+            })
+        ])
+            .then(([gpioResponse, scheduleResponse]) => {
+                if (!gpioResponse.ok || !scheduleResponse.ok) {
+                    throw new Error('Failed to save configuration.');
+                }
+                return Promise.all([gpioResponse.json(), scheduleResponse.json()]);
+            })
+            .then(([gpioData, scheduleData]) => {
+                alert('Configuration and Schedule saved.');
+                if (andRestart) {
+                    alert('System is restarting now. Please wait a moment before reconnecting.');
+                    fetch('/restart', { method: 'POST' });
+                }
+            })
+            .catch(error => alert('Error: ' + error.message));
+
+        /*
         fetch('/gpio_config', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -161,7 +274,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     fetch('/restart', { method: 'POST' });
                 }
             })
-            .catch(error => alert('Error: ' + error.message));
+        */
     }
 
     form.addEventListener('submit', (e) => {
