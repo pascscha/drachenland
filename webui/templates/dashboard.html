@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
 </head>
+
 <body>
     <div class="dashboard">
         <header>
@@ -17,6 +19,11 @@
                 <i class="fas fa-play-circle"></i>
                 <h2>Create Animation</h2>
                 <p>Create and manage servo animations</p>
+            </a>
+            <a href="{{ url_for('manage_animations') }}" class="card">
+                <i class="fas fa-list-ul"></i>
+                <h2>Animations</h2>
+                <p>Manage animation files</p>
             </a>
             <a href="{{ url_for('camera') }}" class="card">
                 <i class="fas fa-video"></i>
@@ -36,4 +43,5 @@
         </div>
     </div>
 </body>
+
 </html>

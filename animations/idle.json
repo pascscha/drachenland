@@ -3,8 +3,11 @@
         {
             "frameIndex": 0,
             "values": {
-                "LED: Rot": 0,
-                "LED: Grün": 0
+		       "Wagen: Kletterkind": 0,
+		       "Masken: Gipser": 0,
+		       "Samba": 0,
+		       "Schnitzen: Papa": 0,
+		       "Wagen: Hammer": 0
             }
         }
     ],

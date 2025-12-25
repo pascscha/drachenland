@@ -47,7 +47,7 @@ class PoseEstimator:
             static_image_mode=False,
             model_complexity=2,
             enable_segmentation=False,
-            min_detection_confidence=0.7,
+            min_detection_confidence=0.8,
         )
 
         self.image: Optional[NDArray] = None

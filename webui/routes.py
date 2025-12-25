@@ -7,7 +7,8 @@ import math
 import shutil
 from datetime import datetime
 from functools import wraps
-from flask import request, Response
+from flask import request, Response, send_from_directory
+from werkzeug.utils import secure_filename
 
 
 def check_auth(username, password):
@@ -36,6 +37,7 @@ def requires_auth(f):
 
 
 webui = flask.Flask(__name__)
+ANIMATIONS_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'animations', 'dances')
 
 
 @webui.context_processor
@@ -67,6 +69,46 @@ def animation():
     )
 
 
+@webui.route("/animations", methods=["GET", "POST"])
+@requires_auth
+def manage_animations():
+    if not os.path.exists(ANIMATIONS_PATH):
+        os.makedirs(ANIMATIONS_PATH)
+
+    if request.method == "POST":
+        if "file" not in request.files:
+            return flask.redirect(request.url)
+        file = request.files["file"]
+        if file.filename == "":
+            return flask.redirect(request.url)
+        if file and file.filename.endswith(".json"):
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(ANIMATIONS_PATH, filename))
+        return flask.redirect(flask.url_for("manage_animations"))
+
+    animations = sorted([f for f in os.listdir(ANIMATIONS_PATH) if f.endswith(".json")])
+    return flask.render_template("animations.html", animations=animations)
+
+
+@webui.route("/animations/download/<filename>", methods=["GET"])
+@requires_auth
+def download_animation(filename):
+    filename = secure_filename(filename)
+    print(ANIMATIONS_PATH, filename)
+    # Ensure the file is in the ANIMATIONS_PATH to prevent directory traversal
+    return send_from_directory(ANIMATIONS_PATH, filename, as_attachment=True)
+
+
+@webui.route("/animations/delete/<filename>", methods=["POST"])
+@requires_auth
+def delete_animation(filename):
+    filename = secure_filename(filename)
+    file_path = os.path.join(ANIMATIONS_PATH, filename)
+    if os.path.exists(file_path):
+        os.remove(file_path)
+    return flask.redirect(flask.url_for("manage_animations"))
+
+
 @webui.route("/camera")
 @requires_auth
 def camera():
@@ -90,7 +132,7 @@ def state():  # Changed from settings() to state()
 def get_state():
     pose_estimator = webui.state_machine.context.pose_estimator
     dance_animations = webui.state_machine.context.animations["dances"]
-    with open("animation-log.log", "r") as f:
+    with open("animation-log-2025.log", "r") as f:
         timestamps = f.read().strip().split("\n")
     return flask.jsonify(
         {
