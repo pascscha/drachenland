@@ -139,8 +139,9 @@ def main() -> None:
     # Initialize GPIO
     setup_inputs(config["gpio"]["inputs"])
     # Initialize pose estimation and I/O controller
+    min_confidence = config.get("gpio", {}).get("min_detection_confidence", 0.8)
     with (
-        PoseEstimator() as pose_estimator,
+        PoseEstimator(min_detection_confidence=min_confidence) as pose_estimator,
         ServoKitIoController.from_config(config["gpio"]) as io_controller,
     ):
         # Create orchestrator

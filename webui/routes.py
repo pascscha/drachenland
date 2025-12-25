@@ -10,7 +10,7 @@ from functools import wraps
 from flask import request, Response, send_from_directory
 from werkzeug.utils import secure_filename
 from utils.time_utils import is_store_open, get_default_schedule
-
+import subprocess
 
 def check_auth(username, password):
     # Replace these with your desired credentials
@@ -259,7 +259,7 @@ def restart():
             import time
 
             time.sleep(1)
-            os.execv(sys.executable, ["python"] + sys.argv)
+            subprocess.call(["sudo", "systemctl", "reboot"])
 
         from threading import Thread
 
