@@ -10,6 +10,9 @@ document.addEventListener('DOMContentLoaded', () => {
             populateServos(config.servos);
             populateGpios(config.gpios);
             populateInputs(config.inputs);
+            if (config.timeout !== undefined) {
+                document.getElementById('freigabe-timeout').value = config.timeout;
+            }
         });
 
     function createRemoveButton() {
@@ -112,7 +115,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const newConfig = {
             servos: {},
             gpios: {},
-            inputs: {}
+            inputs: {},
+            timeout: parseInt(document.getElementById('freigabe-timeout').value) || 60
         };
 
         document.querySelectorAll('.servo-item').forEach(item => {
@@ -135,7 +139,7 @@ document.addEventListener('DOMContentLoaded', () => {
             };
         });
 
-        document.querySelectorAll('.input-item input').forEach(input => {
+        document.querySelectorAll('#inputs-config .input-item input').forEach(input => {
             newConfig.inputs[input.name] = parseInt(input.value);
         });
 
