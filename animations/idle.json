@@ -3,23 +3,11 @@
         {
             "frameIndex": 0,
             "values": {
-                "K": 68,
-                "SR": 140,
-                "ARaR": 32,
-                "ARi": 13,
-                "BRR": 0,
-                "SLR": 128,
-                "ALa": 25,
-                "ALiR": 17,
-                "BL": 0,
-                "1FlugDrache": 0,
-                "Schwanzbeisser": 0,
-                "Reiter": 0,
-                "Reserve": 0,
-                "2Flugdrachen": 0,
-                "LedRot": 0,
-                "LedGruen": 0,
-                "DreiDrachen": 0
+		       "Wagen: Kletterkind": 0,
+		       "Masken: Gipser": 0,
+		       "Samba": 0,
+		       "Schnitzen: Papa": 0,
+		       "Wagen: Hammer": 0
             }
         }
     ],

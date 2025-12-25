@@ -1,28 +1,191 @@
 {% extends "base.html" %}
-
 {% block title %}Settings{% endblock %}
-
-{% block page_title %}Settings{% endblock %}
-
+{% block page_title %}Setup Connections{% endblock %}
 {% include 'partials/header.html' %}
-
 {% block content %}
+<style>
+    .settings-container {
+        max-width: 900px;
+        margin: auto;
+        padding: 20px;
+    }
+
+    .config-section {
+        background-color: var(--card-background);
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+
+    .config-section h2 {
+        margin-top: 0;
+        border-bottom: 1px solid var(--accent-color);
+        padding-bottom: 10px;
+    }
+
+    .pin-config-item {
+        border: 1px solid #444;
+        border-radius: 5px;
+        padding: 15px;
+        margin-bottom: 15px;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px 20px;
+    }
+
+    .pin-config-item label {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: auto;
+    }
+
+    .pin-config-item input {
+        width: 60%;
+        background-color: #555;
+        border: 1px solid #666;
+        color: white;
+        padding: 5px;
+        border-radius: 3px;
+    }
+
+    .pin-config-item input[type="checkbox"] {
+        width: auto;
+    }
+
+    .pin-header {
+        grid-column: 1 / -1;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .pin-header h4 {
+        margin: 0;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .pin-header input {
+        width: 80px;
+    }
+
+    .add-btn,
+    .remove-btn {
+        background-color: var(--accent-color);
+        color: white;
+        border: none;
+        cursor: pointer;
+        border-radius: 3px;
+        padding: 5px 10px;
+    }
+
+    .remove-btn {
+        background-color: #c13a3a;
+    }
+
+    .input-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+        padding: 5px 0;
+    }
+
+    .input-item span {
+        width: auto;
+    }
+
+    .input-item input {
+        width: 100px;
+        background-color: #555;
+        border: 1px solid #666;
+        color: white;
+        padding: 5px;
+        border-radius: 3px;
+    }
+
+    .form-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+        margin-top: 20px;
+    }
+
+    .save-btn,
+    .restart-btn {
+        padding: 10px 20px;
+        border-radius: 5px;
+        border: none;
+        cursor: pointer;
+        color: white;
+        font-size: 1em;
+    }
+
+    .save-btn {
+        background-color: var(--accent-color);
+    }
+
+    .restart-btn {
+        background-color: #f0ad4e;
+    }
+</style>
 <div class="settings-container">
-    <!-- Add your settings implementation here -->
-    <div class="settings-group">
-        <h2>Servo Configuration</h2>
-        <!-- Add servo settings -->
-    </div>
-    
-    <div class="settings-group">
-        <h2>GPIO Configuration</h2>
-        <!-- Add GPIO settings -->
-    </div>
+    <form id="gpio-form">
+        <div class="config-section">
+            <h2>Servos</h2>
+            <div id="servos-config"></div>
+            <button type="button" id="add-servo" class="add-btn">Add Servo</button>
+        </div>
+
+        <div class="config-section">
+            <h2>GPIO Outputs (Relays)</h2>
+            <div id="gpios-config"></div>
+            <button type="button" id="add-gpio" class="add-btn">Add GPIO</button>
+        </div>
+
+        <div class="config-section">
+            <h2>GPIO Inputs</h2>
+            <div id="inputs-config"></div>
+        </div>
+
+        <div class="config-section">
+            <h2>Opening Hours</h2>
+            <p>Define when the store is open. Outside these hours, "Closed" animations will play.</p>
+            <div id="schedule-config">
+                <!-- Schedule items will be populated by JS -->
+            </div>
+        </div>
+
+        <div class="config-section">
+            <h2>General Settings</h2>
+            <div class="pin-config-item input-item">
+                <span>Freigabe Timeout (minutes):</span>
+                <input type="number" id="freigabe-timeout" name="timeout" value="60" required>
+            </div>
+            <div class="pin-config-item input-item">
+                <span>Presence Trigger Time (seconds):</span>
+                <input type="number" id="presence-trigger-time" name="presence_trigger_time" value="15" required>
+            </div>
+            <div class="pin-config-item input-item">
+                <span>Presence Notice Time (seconds):</span>
+                <input type="number" id="presence-notice-time" name="presence_notice_time" value="3" required>
+            </div>
+            <div class="pin-config-item input-item">
+                <span>Min Detection Confidence (0.0 - 1.0):</span>
+                <input type="number" id="min-detection-confidence" name="min_detection_confidence" value="0.8"
+                    step="0.01" min="0" max="1" required>
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="save-btn">Save Configuration</button>
+            <button type="button" id="restart-button" class="restart-btn">Save & Restart</button>
+        </div>
+    </form>
 </div>
 {% endblock %}
-
 {% block scripts %}
+<script src="{{ url_for('static', filename='js/gpio.js') }}"></script>
 {% endblock %}
-</body>
-
-</html>

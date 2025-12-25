@@ -181,13 +181,21 @@ class KeyFrameAnimation(Animation):
 class MultiKeyframeAnimation(Animation):
     """Handles multiple keyframe animations in sequence."""
 
-    def __init__(self, animations: List[KeyFrameAnimation], *args, **kwargs):
+    def __init__(
+        self,
+        animations: List[KeyFrameAnimation],
+        *args,
+        animation_duration: Optional[float] = None,
+        **kwargs,
+    ):
         try:
             super().__init__(*args, **kwargs)
             self.animations = animations
             self.index = 0
             self.is_running = False
             self.animation: Optional[KeyFrameAnimation] = None
+            self.animation_duration = animation_duration
+            self.elapsed_time = 0.0
         except Exception as e:
             logger.error(
                 f"Error initializing MultiKeyframeAnimation: {str(e)}", exc_info=True
@@ -219,9 +227,11 @@ class MultiKeyframeAnimation(Animation):
         """Start the animation sequence."""
         try:
             self.is_running = True
+            self.elapsed_time = 0.0
             self.animation = self.animations[self.index]
             self.animation.current_time = 0
             self.animation.repetitions = 1
+            self.index = (self.index + 1) % len(self.animations)
         except Exception as e:
             logger.error(f"Error starting animation: {str(e)}", exc_info=True)
             self.is_running = False
@@ -233,12 +243,38 @@ class MultiKeyframeAnimation(Animation):
             if self.animation is None:
                 return {}
 
-            values = self.animation.tick(delta)
+            # Check if we've exceeded the animation_duration
+            if self.animation_duration is not None:
+                if self.elapsed_time >= self.animation_duration:
+                    self.animation = None
+                    self.is_running = False
+                    return {}
 
+                # Check if this tick would exceed the duration
+                if self.elapsed_time + delta > self.animation_duration:
+                    # Adjust delta to only go up to the duration limit
+                    delta = self.animation_duration - self.elapsed_time
+
+            values = self.animation.tick(delta)
+            self.elapsed_time += delta
+
+            # Check if current animation finished
             if self.animation.repetitions <= 0:
-                self.animation = None
-                self.is_running = False
-                self.index = (self.index + 1) % len(self.animations)
+                self.animation = self.animations[self.index]
+                self.animation.current_time = 0
+                self.animation.repetitions = 1
+
+                # If we have a duration limit and haven't reached it, continue
+                if (
+                    self.animation_duration is None
+                    or self.elapsed_time < self.animation_duration
+                ):
+                    # Animation continues with next in sequence
+                    pass
+                else:
+                    # Duration limit reached
+                    self.animation = None
+                    self.is_running = False
 
             return values
         except Exception as e:

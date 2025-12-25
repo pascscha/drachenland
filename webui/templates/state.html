@@ -38,6 +38,10 @@
                     <td id="current-dance"></td>
                 </tr>
                 <tr>
+                    <td>Opening Status:</td>
+                    <td id="opening-status"></td>
+                </tr>
+                <tr>
                     <td>Number of Dances</td>
                     <td id="n-started"></td>
                 </tr>
@@ -60,6 +64,10 @@
                 document.getElementById('dance-index').textContent = data.dance_index;
                 document.getElementById('current-dance').textContent = data.current_dance;
                 document.getElementById('n-started').textContent = data.n_started;
+
+                const statusEl = document.getElementById('opening-status');
+                statusEl.textContent = data.is_open;
+                statusEl.style.color = data.is_open === "Open" ? "#4caf50" : "#ff5252";
             });
     }
     // Initial load

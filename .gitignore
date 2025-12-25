@@ -172,3 +172,7 @@ cython_debug/
 
 # Active config
 config
+
+animations/dances
+animations/dances_open
+animations/dances_closed

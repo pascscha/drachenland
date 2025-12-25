@@ -3,7 +3,6 @@
 import logging
 from typing import Dict, Optional, Sequence
 import traceback
-
 from adafruit_servokit import ServoKit
 import RPi.GPIO as GPIO
 
@@ -29,7 +28,6 @@ class Servo:
         gpio_pin: int,
         speed: float,
         position: float = 0,
-        reversed: bool = False,
         binary: bool = False,
     ) -> None:
         self.name = name
@@ -38,7 +36,6 @@ class Servo:
         self.position = position
         self.target_position = position
         self.binary = binary
-        self.reversed = reversed
         logger.debug(f"Initialized servo {name} on pin {gpio_pin}")
 
     def set_target(self, target_position: float) -> None:
@@ -101,7 +98,6 @@ class OverlapConstraint(Constraint):
     def is_allowed(self, servo: Servo) -> bool:
         if servo not in (self.servo1, self.servo2):
             return True
-
         in_range1 = self.range1[0] <= self.servo1.position <= self.range1[1]
         in_range2 = self.range2[0] <= self.servo2.position <= self.range2[1]
         return not (in_range1 and in_range2)
@@ -133,7 +129,6 @@ class IoController:
                 after = [
                     constraint.is_allowed(servo) for constraint in self.constraints
                 ]
-
                 if any(bef and not aft for bef, aft in zip(before, after)):
                     servo.position = old_position
             except Exception as e:
@@ -146,19 +141,18 @@ class IoController:
         try:
             servos = {}
             for idx, cfg in config["servos"].items():
+                print(f"Setting up", cfg["name"], idx)
                 servos[cfg["name"]] = Servo(
                     cfg["name"],
                     int(idx),
                     cfg["speed"],
                     position=(cfg["min"] + cfg["max"]) / 2,
-                    reversed=cfg["reversed"],
                 )
-
             for gpio_pin, cfg in config["gpios"].items():
+                print(f"Setting up GPIO", cfg["name"], gpio_pin)
                 servos[cfg["name"]] = Servo(
                     cfg["name"], int(gpio_pin), 10000, position=0, binary=True
                 )
-
             constraints = [
                 RangeConstraint(
                     servos[cfg["name"]],
@@ -167,7 +161,6 @@ class IoController:
                 )
                 for cfg in config["servos"].values()
             ]
-
             return cls(servos.values(), constraints)
         except Exception as e:
             logger.error(f"Error creating IoController from config: {str(e)}")
@@ -189,6 +182,7 @@ class ServoKitIoController(IoController):
             self.kit = ServoKit(channels=channels)
             self._initialize_servos()
         except Exception as e:
+            raise e
             logger.error(f"Failed to initialize ServoKit: {str(e)}")
             logger.debug(traceback.format_exc())
             raise ServoError(f"ServoKit initialization failed: {str(e)}")
@@ -201,11 +195,7 @@ class ServoKitIoController(IoController):
                     GPIO.setup(servo.gpio_pin, GPIO.OUT)
                 else:
                     current_angle = self.kit.servo[servo.gpio_pin].angle
-                    servo.position = (
-                        (180 - current_angle if servo.reversed else current_angle)
-                        if current_angle is not None
-                        else 90
-                    )
+                    servo.position = current_angle if current_angle is not None else 90
             except Exception as e:
                 logger.error(f"Error initializing servo {servo.name}: {str(e)}")
                 logger.debug(traceback.format_exc())
@@ -219,8 +209,6 @@ class ServoKitIoController(IoController):
                 if servo.binary:
                     GPIO.output(servo.gpio_pin, angle > 90)
                 else:
-                    if servo.reversed:
-                        angle = 180 - angle
                     angle = max(0, min(180, angle))
                     self.kit.servo[servo.gpio_pin].angle = angle
             except Exception as e:

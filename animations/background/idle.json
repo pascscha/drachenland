@@ -3,19 +3,14 @@
         {
             "frameIndex": 0,
             "values": {
-                "LED: Grün": 180
-            }
-        },
-        {
-            "frameIndex": 1,
-            "values": {
+                "LED: Rot": 0,
                 "LED: Grün": 0
             }
         }
     ],
     "config": {
-        "totalFrames": 2,
-        "fps": 6,
+        "totalFrames": 40,
+        "fps": 10,
         "currentFrameIndex": 0
     }
 }
